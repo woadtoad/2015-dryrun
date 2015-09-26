@@ -1,5 +1,5 @@
 local _M = CLASS("texmate")
---pass in the atlas, and it will make a deck, and preseve offset data. 
+--pass in the atlas, and it will make a deck, and preseve offset data.
 --framerate, works as a global number
 
 function round(num, idp)
@@ -30,6 +30,7 @@ function _M:initialize (Atlas,animlist,defaultanim,x,y,pivotx,pivoty,rot)
 	self.scale = {}
 	self.scale.x = scalex or 1
 	self.scale.y = scaley or 1
+  self.flip = -1
 
 end
 
@@ -41,8 +42,15 @@ function _M:play ()
 	self.active = true
 end
 
-function _M:changeAnim (anim)
+--dir is a flip value, if is > 0 no flip, else is flipped
+function _M:changeAnim (anim,dir)
 	self.activeAnim = anim
+
+  if dir < 0 then
+    self.flip = -1
+  else
+    self.flip = 1
+  end
 end
 
 function _M:changeLoc (x,y)
@@ -51,12 +59,15 @@ function _M:changeLoc (x,y)
 end
 
 function _M:changeRot(angle)
-	self.rot = angle 
-	print(angle)
+	self.rot = angle
+end
+
+function _M:changeRotVec(vec)
+  self.rot = math.deg(math.atan2(vec.y,vec.x))+90
 end
 
 function _M:getLoc()
-	return self.x,self.y 
+	return self.x,self.y
 end
 
 function  _M:Destroy ()
@@ -82,15 +93,15 @@ function _M:update (dt)
 end
 
 function _M:draw ()
-	--Reset graphics colour back to white 
+	--Reset graphics colour back to white
 	love.graphics.setColor(255,255,255,255)
 
 
-	--Binds the SpriteBatch to memory for more efficient updating. 
+	--Binds the SpriteBatch to memory for more efficient updating.
 	self.batch:clear()
 	self.batch:bind()
 
-		--find the center of the sprite. 
+		--find the center of the sprite.
 		local tempWidth = self.Atlas.size[self.animlist[self.activeAnim].frames[round(self.iterator)]..".png"].width/2
 		local tempHeight = self.Atlas.size[self.animlist[self.activeAnim].frames[round(self.iterator)]..".png"].height/2
 		local atlas = self.Atlas.quads[self.animlist[self.activeAnim].frames[round(self.iterator)]..".png"]
@@ -103,9 +114,9 @@ function _M:draw ()
 						self.x, --x
 						self.y, --y
 						math.rad(self.rot), -- rot
-						self.scale.x, -- scale x
+						self.scale.x*self.flip, -- scale x
 						self.scale.y, -- scale y
-						-extra[1]+tempWidth-self.offset.x, --pivotx, needs to add in the trimming data here. 
+						-extra[1]+tempWidth-self.offset.x, --pivotx, needs to add in the trimming data here.
 						-extra[2]+tempHeight-self.offset.y -- pivoty
 					)
 

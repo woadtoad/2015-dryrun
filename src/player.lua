@@ -10,8 +10,8 @@ function PL:initialize()
 
   --this is how we setup the animations, I may write a
   --convinence function to make generating the file names easier. so it would be a functuon that takes the name then the range of numbers to go between and return the values.
-  animlist = {}
-  animlist["Death"] = {
+  bodyAnimList = {}
+  bodyAnimList["Death"] = {
     framerate = 14,
     frames = {
       "Death001",
@@ -26,7 +26,7 @@ function PL:initialize()
     }
   }
 
-  animlist["Run"] = {
+  bodyAnimList["Run"] = {
     framerate = 14,
     frames = {
       "fastZomb001",
@@ -41,37 +41,64 @@ function PL:initialize()
     }
   }
 
+  bowAnimList = {}
+  bowAnimList["std"] = {
+    framerate = 14,
+    frames = {
+      "Bow",
+    }
+  }
+
+
   --make the sprite , args: atlas, animation dataformat, default animation.
-  self.sprite = TEXMATE(myAtlas,animlist,"Death",nil,nil,0,-30)
+  self.sprite = TEXMATE(myAtlas,bodyAnimList,"Death",nil,nil,0,-30)
+  self.bowSprite = TEXMATE(myAtlas,bowAnimList,"std",nil,nil,0,-30)
 
   self.collision = world:newRectangleCollider(300, 300, 50, 50, {collision_class = 'Player'})
   self.collision.body:setFixedRotation(false)
-  self.collision.fixtures['main']:setRestitution(0.3)
-  --self.collision.body:applyLinearImpulse(100,0,self.collision.body:getX()-30,self.collision.body:getY()-30)
+  self.collision.fixtures['main']:setRestitution(0) -- no bouncing for char.
 
   INPUT:bind('leftx', 'move')
+  INPUT:bind('rightx','bowx')
+  INPUT:bind('righty','bowy')
 end
 
 function PL:update(dt)
   self.sprite:update(dt)
+  self.bowSprite:update(dt)
 
   --update the position of the sprite
   self.sprite:changeLoc(self.collision.body:getX(),self.collision.body:getY())
   self.sprite:changeRot(math.deg(self.collision.body:getAngle()))
 
+  self.bowSprite:changeLoc(self.collision.body:getX(),self.collision.body:getY())
+  self.bowSprite:changeRot(math.deg(self.collision.body:getAngle()))
   --input
   if INPUT:down('move') then self:moveX(INPUT:down('move')) end
+  if INPUT:down('bowx') then self:rotBow(INPUT:down('bowx'),INPUT:down('bowy')) end
 end
 
 function PL:moveX(dir)
   local speed = 50 * dir
 
-  self.collision.body:applyLinearImpulse(speed,0,self.collision.body:getX(),self.collision.body:getY())
+  if dir > 0.3 or dir < -0.3 then
+    self.sprite:changeAnim("Run",dir)
+    self.collision.body:applyLinearImpulse(speed,0,self.collision.body:getX(),self.collision.body:getY())
+  else
+    self.sprite:changeAnim("Death",dir)
+  end
 
+end
+
+function PL:rotBow(x,y)
+  local vector = VECTOR(x,y)
+
+  self.bowSprite:changeRotVec(vector)
 end
 
 function PL:draw()
   self.sprite:draw()
+  self.bowSprite:draw()
 end
 
 function PL:speak()
