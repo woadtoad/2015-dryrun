@@ -13,6 +13,7 @@ function PL:initialize(room)
   self.shootTimer = 0
   self.room  = room
   self.vector = VECTOR(0,0)
+  self.defaultVec = VECTOR(0,0)
   --this is how we setup the animations, I may write a
   --convinence function to make generating the file names easier. so it would be a functuon that takes the name then the range of numbers to go between and return the values.
   local bodyAnimList = {}
@@ -67,6 +68,8 @@ function PL:initialize(room)
   INPUT:bind('fdown','shoot')
   INPUT:bind('r2','shoot')
 
+
+
 end
 
 function PL:update(dt)
@@ -79,6 +82,7 @@ function PL:update(dt)
 
   self.bowSprite:changeLoc(self.collision.body:getX(),self.collision.body:getY())
   self.bowSprite:changeRot(math.deg(self.collision.body:getAngle()))
+
   --input
   if INPUT:down('move') then self:moveX(INPUT:down('move')) end
   if INPUT:down('bowx') then self:rotBow(INPUT:down('bowx'),INPUT:down('bowy')) end
@@ -88,6 +92,7 @@ function PL:update(dt)
 end
 
 function PL:moveX(dir)
+
   local speed = 50 * dir
 
   if dir > 0.3 or dir < -0.3 then
@@ -100,9 +105,13 @@ function PL:moveX(dir)
 end
 
 function PL:rotBow(x,y)
+
   self.vector = VECTOR(x,y)
 
-  self.bowSprite:changeRotVec(self.vector)
+  distance = self.vector:dist(self.defaultVec)
+
+  if distance > 0.3 then self.bowSprite:changeRotVec(self.vector) end
+
 end
 
 function PL:shoot(dt,isinput)
