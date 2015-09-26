@@ -68,19 +68,25 @@ function PL:initialize(room)
   INPUT:bind('fdown','shoot')
   INPUT:bind('r2','shoot')
 
+  self.anim = {bowHeight = 10}
 
+  self.tween = TWEEN.new(1, self.anim, {bowHeight = 50}, 'inOutSine')
 
 end
+
+
 
 function PL:update(dt)
   self.sprite:update(dt)
   self.bowSprite:update(dt)
 
+  self.tween:update(dt)
+
   --update the position of the sprite
   self.sprite:changeLoc(self.collision.body:getX(),self.collision.body:getY())
   self.sprite:changeRot(math.deg(self.collision.body:getAngle()))
 
-  self.bowSprite:changeLoc(self.collision.body:getX(),self.collision.body:getY())
+  self.bowSprite:changeLoc(self.collision.body:getX(),self.collision.body:getY()+self.anim.bowHeight)
   self.bowSprite:changeRot(math.deg(self.collision.body:getAngle()))
 
   --input

@@ -7,6 +7,8 @@ Arrow:include(STATEFUL)
 
 function Arrow:initialize(x,y,vec)
 
+
+
   local angle = math.deg(math.atan2(vec.y,vec.x))
 
   self.collision = world:newCircleCollider(x or 100, y or 100, 5, {collision_class = 'ArrowHead'})

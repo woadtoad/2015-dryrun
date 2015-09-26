@@ -70,6 +70,9 @@ TEXMATE = require("libs.TexMate")
 --TIMER!
 TIMER = require("libs.hump.timer")
 
+--TWEEN
+TWEEN = require("libs.tween.tween")
+
 --VECTOR CLASS
 VECTOR = require("libs.hump.vector")
 
