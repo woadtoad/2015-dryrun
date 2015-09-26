@@ -27,7 +27,7 @@ function Game:initialize()
   --instantiate a text area
   self.textArea = UI.Textarea(20,20,100,40, {editing_locked = true})
   table.insert(UPDATELIST, self.textArea)
-  self.textArea:addText('help')
+  self.textArea:addText('pls sned heldp')
 
 end
 

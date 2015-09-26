@@ -46,6 +46,8 @@ function Room:update(dt)
       if bubble.health > 0 then
         bubble:update(dt)
       else
+        pos = VECTOR(bubble.collision.body:getX(),bubble.collision.body:getY())
+        Room:spawnPowerup(pos)
         bubble:destroy()
         table.remove(self.bubbles, i)
       end
@@ -91,6 +93,12 @@ end
 
 function Room:resetBubbleTimer()
   self.bubbleTimer = 100 * self.bubbleSecondsBetween
+end
+
+function Room:spawnPowerup(position)
+  if(position.x and position.y) then
+    print(position)
+  end
 end
 
 return Room
