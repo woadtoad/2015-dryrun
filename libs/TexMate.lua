@@ -104,10 +104,10 @@ function _M:draw ()
 	self.batch:bind()
 
 		--find the center of the sprite.
-		local tempWidth = self.Atlas.size[self.animlist[self.activeAnim].frames[round(self.iterator)]..".png"].width/2
-		local tempHeight = self.Atlas.size[self.animlist[self.activeAnim].frames[round(self.iterator)]..".png"].height/2
-		local atlas = self.Atlas.quads[self.animlist[self.activeAnim].frames[round(self.iterator)]..".png"]
-		local extra = self.Atlas.extra[self.animlist[self.activeAnim].frames[round(self.iterator)]..".png"]
+		local tempWidth = self.Atlas.size[self.animlist[self.activeAnim].frames[round(self.iterator)]].width/2
+		local tempHeight = self.Atlas.size[self.animlist[self.activeAnim].frames[round(self.iterator)]].height/2
+		local atlas = self.Atlas.quads[self.animlist[self.activeAnim].frames[round(self.iterator)]]
+		local extra = self.Atlas.extra[self.animlist[self.activeAnim].frames[round(self.iterator)]]
 
 		--id = SpriteBatch:add( quad, x, y, r, sx, sy, ox, oy, kx, ky )
 		--r is in radians

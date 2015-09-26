@@ -19,30 +19,30 @@ function PL:initialize(room)
   bodyAnimList["Death"] = {
     framerate = 14,
     frames = {
-      "Death001",
-      "Death002",
-      "Death003",
-      "Death004",
-      "Death005",
-      "Death006",
-      "Death007",
-      "Death008",
-      "Death009"
+      "Death001.png",
+      "Death002.png",
+      "Death003.png",
+      "Death004.png",
+      "Death005.png",
+      "Death006.png",
+      "Death007.png",
+      "Death008.png",
+      "Death009.png"
     }
   }
 
   bodyAnimList["Run"] = {
     framerate = 14,
     frames = {
-      "fastZomb001",
-      "fastZomb002",
-      "fastZomb003",
-      "fastZomb004",
-      "fastZomb005",
-      "fastZomb006",
-      "fastZomb007",
-      "fastZomb008",
-      "fastZomb009"
+      "fastZomb001.png",
+      "fastZomb002.png",
+      "fastZomb003.png",
+      "fastZomb004.png",
+      "fastZomb005.png",
+      "fastZomb006.png",
+      "fastZomb007.png",
+      "fastZomb008.png",
+      "fastZomb009.png"
     }
   }
 
@@ -50,7 +50,7 @@ function PL:initialize(room)
   bowAnimList["std"] = {
     framerate = 14,
     frames = {
-      "Bow",
+      "Bow.png",
     }
   }
 
