@@ -100,6 +100,7 @@ function _M:update (dt)
 end
 
 function _M:draw ()
+
 	--Reset graphics colour back to white
 	love.graphics.setColor(255,255,255,255)
 

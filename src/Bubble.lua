@@ -17,14 +17,14 @@ function Bubble:initialize(x, y, radius)
   animlist[Bubble.static.ANIM_IDLE] = {
     framerate = 14,
     frames = {
-      "bubblepop/bubble_0000"
+      "bubblepop/Bubble_0000"
     }
   }
   animlist[Bubble.static.ANIM_BURST] = {
     framerate = 14,
     frames = {
-      "bubblepop/Pop_0000",
-      "bubblepop/Pop_0001"
+      "bubblepop/pop_0000",
+      "bubblepop/pop_0001"
     }
   }
 

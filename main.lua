@@ -107,7 +107,7 @@ GameState:initialize()
 GameState:gotoState("Menu")
 GameState:initialize()
 
---GameState:gotoState("Game")
+GameState:gotoState("Game")
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
