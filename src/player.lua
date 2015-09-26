@@ -48,6 +48,8 @@ function PL:initialize()
   self.collision.body:setFixedRotation(false)
   self.collision.fixtures['main']:setRestitution(0.3)
   --self.collision.body:applyLinearImpulse(100,0,self.collision.body:getX()-30,self.collision.body:getY()-30)
+
+  INPUT:bind('leftx', 'move')
 end
 
 function PL:update(dt)
@@ -57,7 +59,14 @@ function PL:update(dt)
   self.sprite:changeLoc(self.collision.body:getX(),self.collision.body:getY())
   self.sprite:changeRot(math.deg(self.collision.body:getAngle()))
 
-  --update the rotation of the sprite.
+  --input
+  if INPUT:down('move') then self:moveX(INPUT:down('move')) end
+end
+
+function PL:moveX(dir)
+  local speed = 50 * dir
+
+  self.collision.body:applyLinearImpulse(speed,0,self.collision.body:getX(),self.collision.body:getY())
 
 end
 
@@ -67,15 +76,6 @@ end
 
 function PL:speak()
   print("Default!")
-end
-
-function PL:keypressed(key, isrepeat)
-
-  local joysticks = love.joystick.getJoysticks()
-  for i, joystick in ipairs(joysticks) do
-    love.graphics.print(joystick:getName(), 300, i * 20)
-  end
-
 end
 
 --Idle state

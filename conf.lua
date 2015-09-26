@@ -7,7 +7,7 @@ function love.conf(t)
   t.title             = "WOADTOAD 48 HR"
   t.author            = "WOADTOAD"
   t.identity          = "WOADTOADGM"
-  t.console           = true
+  --t.console           = true
 
   t.modules.joystick  = true
   t.modules.audio     = true
@@ -25,6 +25,8 @@ function love.conf(t)
   t.window.srgb       = false
   --High DPI doesn't work on high res screens yet.
   t.window.highdpi    = true
+
+
 
   print("HELLO TEAM WOADTOAD, WELOME TO THE 48 HOUR GAME CHALLENGE FRAMEWORK, WE HOPE YOU ENJOY YOUR DEV EXPERIENCE")
 

@@ -1,7 +1,6 @@
 
 
 
-
 toad = [[
 
                                              ,▄▄▄▄▄,
@@ -58,6 +57,9 @@ chatboxMaster = require('libs.thranduil.Chatbox')
 --SOUND --Just makes sound so much easier to handle
 TESound = require("libs.TESound")
 
+local BOIPUSHY = require("libs.boipushy.Input")
+INPUT = BOIPUSHY()
+
 --COLISSION MANAGER
 HARDON = require("libs.hardoncollider")
 
@@ -77,7 +79,7 @@ HX = require("libs.hxdx")
 AtlasImporter = require("libs.AtlasImporter")
 
 --CUPID! dev console and hot loading.
-cupid = require("libs.cupid")
+--cupid = require("libs.cupid")
 
 --Adds the entities folder to the lookup path
 package.path = package.path .. ';assets/entities/?.lua'
@@ -117,6 +119,9 @@ GameState:initialize()
 --love.load really isn't a nessecary thing, it just exists to make things neat
 function love.load()
   UI.registerEvents()
+
+  print("welcome")
+
 end
 
 function love.update(dt)
