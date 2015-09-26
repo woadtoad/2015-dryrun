@@ -23,7 +23,7 @@ function Room:initialize()
   })
 
   -- arrow constructor class
-  self.quiver = Quiver:new()
+  self.quiver = Quiver:new(3)
 
   -- Bubble state
   self.bubbles = {}
@@ -37,7 +37,7 @@ function Room:initialize()
 end
 
 function Room:update(dt)
-  self.quiver.update(self.quiver, dt)
+  self.quiver:update(dt)
 
   if self.hasBubbles then
     self:attemptToCreateBubble(dt)

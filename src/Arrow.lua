@@ -1,4 +1,5 @@
-local world = require("src.world")
+local world = require('src.world')
+local Timer = require('libs.hump.timer')
 
 local Arrow = CLASS('Arrow')
 Arrow:include(STATEFUL)
@@ -36,15 +37,34 @@ function Arrow:initialize(x,y,vec)
   }
 
   self.sprite = TEXMATE(myAtlas,arrowAnimList,"Idle",nil,nil,-8,20)
+  self.canExpire = false
+  self.timer = Timer.new()
+  self.blinkCycle = 0
 
 end
 
 function Arrow:draw()
-  self.sprite:draw()
+  if self.isVisible then
+    self.sprite:draw()
+  end
+end
+
+function Arrow:drawCheck(dt)
+  self.blinkCycle = self.blinkCycle + dt
+  if self.blinkCycle > 1 then
+    self.blinkCycle = self.blinkCycle - 1
+  end
+
+  if self.blinkCycle < 0.2 and self.isBlinking then
+    self.isVisible = false
+  else
+    self.isVisible = true
+  end
 end
 
 function Arrow:update(dt)
   self.sprite:update(dt)
+  self.timer.update(dt)
 
   self.sprite:changeLoc(self.collision.body:getX(),self.collision.body:getY())
   self.sprite:changeRot(math.deg(self.collision.body:getAngle()))
@@ -54,8 +74,52 @@ function Arrow:update(dt)
     local _, bubble = self.collision:enter('Bubble')
     bubble.parent:burst()
   end
+
+  -- Expire the arrow if this is enabled for the arrow
+  if self.canExpire then
+    local vx, vy = self.collision.body:getLinearVelocityFromWorldPoint(0, 0)
+    if vx < 0.5 and vy < 0.5 then
+      self:queueExpire()
+    else
+      if self.hasCalledExpire then
+        self:resetExpire()
+      end
+    end
+  end
+
+  self:drawCheck(dt)
 end
 
+function Arrow:setExpiration(expireSeconds)
+  self.canExpire = true
+  self.expireSeconds = expireSeconds
+end
 
+function Arrow:queueExpire()
+  if not self.hasCalledExpire then
+    self.expireTimer = self.timer.add(self.expireSeconds, function()
+      self:expire()
+    end)
+    self.hasCalledExpire = true
+    self.isBlinking = true
+  end
+end
+
+function Arrow:resetExpire()
+  self.hasCalledExpire = false
+  self.isBlinking = false
+  if self.expireTimer then
+    self.timer.cancel(self.expireTimer)
+  end
+end
+
+function Arrow:expire()
+  self.expired = true
+end
+
+function Arrow:destroy()
+  self.collision.body:destroy()
+  self.collision2.body:destroy()
+end
 
 return Arrow

@@ -1,2 +1,4 @@
 -- This is a singleton, because lua modules are singletons
-return HX.newWorld({gravity_y = 300})
+return HX.newWorld({
+  gravity_y = 300
+})
