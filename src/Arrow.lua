@@ -81,7 +81,7 @@ function Arrow:update(dt)
     if vx < 0.5 and vy < 0.5 then
       self:queueExpire()
     else
-      if self.hasCalledExpire then
+      if self.hasQueuedExpire then
         self:resetExpire()
       end
     end
@@ -96,17 +96,19 @@ function Arrow:setExpiration(expireSeconds)
 end
 
 function Arrow:queueExpire()
-  if not self.hasCalledExpire then
-    self.expireTimer = self.timer.add(self.expireSeconds, function()
-      self:expire()
+  if not self.hasQueuedExpire then
+    -- this is the pre expire timer to avoid buggy timeout starting
+    self.expireTimer = self.timer.add(1, function()
+      -- this timer should not be canceled
+      self.timer.add(self.expireSeconds, function() self:expire() end)
+      self.isBlinking = true
     end)
-    self.hasCalledExpire = true
-    self.isBlinking = true
+    self.hasQueuedExpire = true
   end
 end
 
 function Arrow:resetExpire()
-  self.hasCalledExpire = false
+  self.hasQueuedExpire = false
   self.isBlinking = false
   if self.expireTimer then
     self.timer.cancel(self.expireTimer)
