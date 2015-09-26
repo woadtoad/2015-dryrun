@@ -45,6 +45,7 @@ end
 
 --dir is a flip value, if is > 0 no flip, else is flipped
 function _M:changeAnim (anim,dir)
+  dir = dir or 1
 	self.activeAnim = anim
 
   if dir < 0 then

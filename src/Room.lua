@@ -41,7 +41,12 @@ function Room:update(dt)
     self:attemptToCreateBubble(dt)
 
     for i,bubble in ipairs(self.bubbles) do
-      bubble:update(dt)
+      if bubble.health > 0 then
+        bubble:update(dt)
+      else
+        bubble:destroy()
+        table.remove(self.bubbles, i)
+      end
     end
   end
 end

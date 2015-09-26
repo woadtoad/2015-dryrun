@@ -26,7 +26,12 @@ end
 function Arrow:draw()
 end
 
-function Arrow:update()
+function Arrow:update(dt)
+  -- Burst on an bubble with the arrow peirces it
+  if self.collision:enter('Bubble') then
+    local _, bubble = self.collision:enter('Bubble')
+    bubble.parent:burst()
+  end
 end
 
 function Arrow:updateTODO()
