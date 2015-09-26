@@ -26,7 +26,7 @@ function love.conf(t)
   --High DPI doesn't work on high res screens yet.
   t.window.highdpi    = true
 
-
+  math.randomseed(os.clock ())
 
   print("HELLO TEAM WOADTOAD, WELOME TO THE 48 HOUR GAME CHALLENGE FRAMEWORK, WE HOPE YOU ENJOY YOUR DEV EXPERIENCE")
 

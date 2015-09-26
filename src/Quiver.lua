@@ -3,17 +3,19 @@ local Arrow = require("src.Arrow")
 local Quiver = CLASS('quiver')
 Quiver:include(STATEFUL)
 
-Quiver.Arrows = {}
+function Quiver:initialize()
+  self.Arrows = {}
+end
 
-function Quiver:update()
-  for i=1,#self.Arrows do
-    self.Arrows:update()
+function Quiver:update(dt)
+  for i,arr in ipairs(self.Arrows) do
+    arr:update(dt)
   end
 end
 
 function Quiver:draw()
-  for i=1,#self.Arrows do
-    self.Arrows:draw()
+  for i,arr in ipairs(self.Arrows) do
+    arr:draw()
   end
 end
 

@@ -7,11 +7,14 @@ Bubble:include(STATEFUL)
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 
-function Bubble:initialize()
+function Bubble:initialize(x, y, radius)
+  -- set the defaults
+  radius = radius or 35
+  x = x or (love.graphics.getWidth() / 2) - (radius / 2)
+  y = y or (love.graphics.getHeight() / 2) - (radius / 2)
+
   self.Health = 1
 
-  --this is how we setup the animations, I may write a
-  --convinence function to make generating the file names easier. so it would be a functuon that takes the name then the range of numbers to go between and return the values.
   animlist = {}
   animlist["Death"] = {
     framerate = 14,
@@ -21,17 +24,16 @@ function Bubble:initialize()
     }
   }
 
-  --make the sprite , args: atlas, animation dataformat, default animation.
   self.sprite = TEXMATE(myAtlas,animlist,"Death",nil,nil,0,-30)
 
-  self.collision = world:newRectangleCollider(300, 300, 50, 50, {collision_class = 'Player'})
+  self.collision = world:newCircleCollider(x, y, radius, {collision_class = 'Bubble'})
   self.collision.body:setFixedRotation(false)
-  self.collision.fixtures['main']:setRestitution(0.3)
-  self.collision.body:applyLinearImpulse(100,0,self.collision.body:getX()-30,self.collision.body:getY()-30)
+  self.collision.body:setLinearDamping(0.6)
+  self.collision.fixtures['main']:setRestitution(0.7)
 end
 
 function Bubble:update(dt)
-  self.sprite:update(dt)
+  -- self.sprite:update(dt)
 
   --update the position of the sprite
   self.sprite:changeLoc(self.collision.body:getX(),self.collision.body:getY())
@@ -39,10 +41,16 @@ function Bubble:update(dt)
 
   --update the rotation of the sprite.
 
+  -- apply continuous anti-grav force
+  local xVel, yVel = self.collision.body:getLinearVelocity()
+  if yVel > -100 then
+    self.collision.body:applyForce(0, -2500)
+  end
+
 end
 
 function Bubble:draw()
-  self.sprite:draw()
+  -- self.sprite:draw()
 end
 
 function Bubble:speak()

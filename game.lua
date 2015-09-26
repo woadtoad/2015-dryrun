@@ -6,7 +6,12 @@ local Game = SCENES:addState('Game')
 local UPDATELIST = {}
 
 function Game:initialize()
-  self.room = Room:new()
+  -- Initialise the worlds collision classes, for everything to use
+  require('src.collisionClasses')
+
+  self.room = Room()
+  table.insert(UPDATELIST,self.room)
+  self.room:start()
 
   --Player Class
   player = require('src.player')

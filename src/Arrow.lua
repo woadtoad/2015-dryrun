@@ -24,10 +24,12 @@ function Arrow:initialize(x,y,vec)
 end
 
 function Arrow:draw()
-
 end
 
 function Arrow:update()
+end
+
+function Arrow:updateTODO()
 
   self.pointingDirection  = self.collision.body:getWorldVector(0,1)
   self.flightdir = VECTOR(self.collision.body:getLinearVelocity())
