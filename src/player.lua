@@ -1,4 +1,5 @@
 local world = require("src.world")
+local Arr = require("src.Arrow")
 
 local PL = CLASS('player')
 PL:include(STATEFUL)
@@ -9,6 +10,7 @@ PL:include(STATEFUL)
 
 function PL:initialize()
   self.Health = 10
+  self.shootTimer = 0
 
   --this is how we setup the animations, I may write a
   --convinence function to make generating the file names easier. so it would be a functuon that takes the name then the range of numbers to go between and return the values.
@@ -57,12 +59,15 @@ function PL:initialize()
   self.bowSprite = TEXMATE(myAtlas,bowAnimList,"std",nil,nil,0,-30)
 
   self.collision = world:newRectangleCollider(300, 300, 50, 50, {collision_class = 'Player'})
-  self.collision.body:setFixedRotation(false)
+  self.collision.body:setFixedRotation(true)
   self.collision.fixtures['main']:setRestitution(0) -- no bouncing for char.
 
   INPUT:bind('leftx', 'move')
   INPUT:bind('rightx','bowx')
   INPUT:bind('righty','bowy')
+  INPUT:bind('fdown','shoot')
+  INPUT:bind('r2','shoot')
+
 end
 
 function PL:update(dt)
@@ -78,6 +83,9 @@ function PL:update(dt)
   --input
   if INPUT:down('move') then self:moveX(INPUT:down('move')) end
   if INPUT:down('bowx') then self:rotBow(INPUT:down('bowx'),INPUT:down('bowy')) end
+  if INPUT:down('shoot') then self:shoot(dt,INPUT:down('shoot')) end
+
+  self.shootTimer = self.shootTimer - 100 * dt
 end
 
 function PL:moveX(dir)
@@ -93,9 +101,23 @@ function PL:moveX(dir)
 end
 
 function PL:rotBow(x,y)
-  local vector = VECTOR(x,y)
+  self.vector = VECTOR(x,y)
 
-  self.bowSprite:changeRotVec(vector)
+  self.bowSprite:changeRotVec(self.vector)
+end
+
+function PL:shoot(dt,quit)
+
+  if quit == 0 then return end
+
+  self.shootTimer = self.shootTimer - 100 * dt
+
+  --Adds a shoot delay
+  if self.shootTimer < 0 then
+    local arrow = Arr(self.collision.body:getX(),self.collision.body:getY()-200,self.vector)
+    self.shootTimer = 100
+  end
+
 end
 
 function PL:draw()

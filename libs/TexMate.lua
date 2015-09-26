@@ -63,6 +63,8 @@ function _M:changeRot(angle)
 end
 
 function _M:changeRotVec(vec)
+
+
   self.rot = math.deg(math.atan2(vec.y,vec.x))+90
 end
 
