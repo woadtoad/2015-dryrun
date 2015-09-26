@@ -1,6 +1,7 @@
 local world = require('src.world')
 local Bubble = require('src.Bubble')
 local Quiver = require("src.Quiver")
+local Coin = require('src.Coin')
 
 -- The room is the physical ground and walls in the world
 local Room = CLASS('Room')
@@ -95,9 +96,11 @@ function Room:resetBubbleTimer()
   self.bubbleTimer = 100 * self.bubbleSecondsBetween
 end
 
+-- Spawn a powerup at a position
 function Room:spawnPowerup(position)
   if(position.x and position.y) then
     print(position)
+    local coin = Coin(position.x, position.y, 20);
   end
 end
 
