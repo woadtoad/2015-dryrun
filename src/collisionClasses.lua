@@ -7,6 +7,9 @@ world:addCollisionClass('RoomGround')
 -- Player.lua
 world:addCollisionClass('Player')
 
+-- Platform.lua
+world:addCollisionClass('Platform')
+
 -- Bubble.lua
 world:addCollisionClass('Bubble', {
   ignores = {'RoomGround'}

@@ -1,5 +1,6 @@
 local world = require('src.world')
 local Room = require('src.Room')
+local Platform = require('src.Platform')
 
 local Game = SCENES:addState('Game')
 
@@ -10,17 +11,20 @@ function Game:initialize()
   require('src.collisionClasses')
 
   self.room = Room()
-  table.insert(UPDATELIST,self.room)
-  self.room:start()
+  table.insert(UPDATELIST, self.room)
+
+  -- Platform
+  self.platform = Platform()
+  table.insert(UPDATELIST, self.platform)
 
   --Player Class
   player = require('src.player')
 
   --instantiate a new player.
   Archer = player:new(self.room) --this is bad but it'll work, the whole passing the self.room ref
-
-  --we'll just use a simple table to keep things updated
   table.insert(UPDATELIST,Archer)
+
+  self.room:start()
 end
 
 function Game:update(dt)

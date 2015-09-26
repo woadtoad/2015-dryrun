@@ -1,6 +1,6 @@
 local world = require("src.world")
 
-local Bubble = CLASS('bubble')
+local Bubble = CLASS('Bubble')
 Bubble:include(STATEFUL)
 Bubble.static.ANIM_IDLE = 'Idle'
 Bubble.static.ANIM_BURST = 'Burst'

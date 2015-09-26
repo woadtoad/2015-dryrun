@@ -4,7 +4,7 @@ local Quiver = require("src.Quiver")
 
 -- The room is the physical ground and walls in the world
 local Room = CLASS('Room')
-Room.static.WALL_WIDTH = 50;
+Room.static.WALL_WIDTH = 1;
 Room.static.WALL_HEIGHT = 800;
 
 function Room:initialize()
@@ -13,11 +13,11 @@ function Room:initialize()
     body_type = 'static',
     collision_class = 'RoomGround'
   })
-  self.lWall = world:newRectangleCollider(0, 0, Room.static.WALL_WIDTH, Room.static.WALL_HEIGHT, {
+  self.lWall = world:newRectangleCollider(-1, 0, Room.static.WALL_WIDTH, Room.static.WALL_HEIGHT, {
     body_type = 'static',
     collision_class = 'RoomWall'
   })
-  self.rWall = world:newRectangleCollider(976, 0, Room.static.WALL_WIDTH, Room.static.WALL_HEIGHT, {
+  self.rWall = world:newRectangleCollider(love.graphics.getWidth(), 0, Room.static.WALL_WIDTH, Room.static.WALL_HEIGHT, {
     body_type = 'static',
     collision_class = 'RoomWall'
   })
