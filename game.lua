@@ -23,8 +23,12 @@ function Game:initialize()
   --instantiate a new player.
   Archer = player:new(self.room) --this is bad but it'll work, the whole passing the self.room ref
   table.insert(UPDATELIST,Archer)
-
   self.room:start()
+  --instantiate a text area
+  --UI.DefaultTheme = Theme
+  self.textArea = UI.Textarea(20,20,100,20)
+  self.textArea:addText('help')
+
 end
 
 function Game:update(dt)
@@ -32,9 +36,8 @@ function Game:update(dt)
   if love.joystick.isDown then
     print("controller")
   end
-
+  self.textArea:update(dt)
   world:update(dt)
-
   --Iterate through the items for update
   for i, v in pairs(UPDATELIST) do
     UPDATELIST[i]:update(dt)
@@ -46,7 +49,7 @@ function Game:draw()
 
   --Debug Drawing for physics
   world:draw()
-
+  self.textArea:draw()
   --Iterate through the items for drawing
   for i, v in pairs(UPDATELIST) do
     UPDATELIST[i]:draw()
