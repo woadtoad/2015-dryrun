@@ -1,3 +1,5 @@
+local world = require("src.world")
+
 local PL = CLASS('player')
 PL:include(STATEFUL)
 

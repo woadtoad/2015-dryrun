@@ -1,11 +1,13 @@
-local PL = CLASS('bubble')
-PL:include(STATEFUL)
+local world = require("src.world")
+
+local Bubble = CLASS('bubble')
+Bubble:include(STATEFUL)
 
 --Default state
---------------------------------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
-function PL:initialize()
+function Bubble:initialize()
   self.Health = 1
 
   --this is how we setup the animations, I may write a
@@ -28,7 +30,7 @@ function PL:initialize()
   self.collision.body:applyLinearImpulse(100,0,self.collision.body:getX()-30,self.collision.body:getY()-30)
 end
 
-function PL:update(dt)
+function Bubble:update(dt)
   self.sprite:update(dt)
 
   --update the position of the sprite
@@ -39,23 +41,23 @@ function PL:update(dt)
 
 end
 
-function PL:draw()
+function Bubble:draw()
   self.sprite:draw()
 end
 
-function PL:speak()
+function Bubble:speak()
   print("Default!")
 end
 
-function PL:keypressed(key, isrepeat)
+function Bubble:keypressed(key, isrepeat)
 
 end
 
 --Idle state
---------------------------------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
-local Idle = PL:addState('Idle')
+local Idle = Bubble:addState('Idle')
 
 function Idle:speak()
   print("Idle!")
@@ -65,4 +67,4 @@ function Idle:update(dt)
 
 end
 
-return PL
+return Bubble

@@ -1,21 +1,15 @@
+local world = require('src.world')
+local Room = require('src.Room')
+
 local Game = SCENES:addState('Game')
 
 local UPDATELIST = {}
 
 function Game:initialize()
+  self.room = Room:new()
+
   --Player Class
   player = require('src.player')
-
-  --we are using box 2d in this example, and i am using a little library called hxcx which simplifies using box 2d a ton, but we still have access to the core mappings so it's a win win for us.
-  world = HX.newWorld({gravity_y = 70})
-
-  world:addCollisionClass('Ghost')
-  world:collisionClassesSet()
-
-  --level Collission
-  ground = world:newRectangleCollider(0, 750, 1024, 50, {body_type = 'static'})
-  lWall = world:newRectangleCollider(0, 0, 50, 800, {body_type = 'static'})
-  RWall = world:newRectangleCollider(976, 0, 50, 800, {body_type = 'static'})
 
   --instantiate a new player.
   Archer = player:new()
@@ -44,7 +38,7 @@ function Game:draw()
   --Debug Drawing for physics
   world:draw()
 
-  --Iterate through the items for update
+  --Iterate through the items for drawing
   for i, v in pairs(UPDATELIST) do
     UPDATELIST[i]:draw()
   end
