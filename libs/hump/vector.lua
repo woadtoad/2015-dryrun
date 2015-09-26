@@ -120,6 +120,10 @@ function vector.dist2(a, b)
 	return (dx * dx + dy * dy)
 end
 
+function vector.abs()
+  return math.abs(self.x),math.abs(self.y)
+end
+
 function vector:normalize_inplace()
 	local l = self:len()
 	if l > 0 then

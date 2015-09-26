@@ -12,7 +12,7 @@ function Game:initialize()
   player = require('src.player')
 
   --instantiate a new player.
-  Archer = player:new()
+  Archer = player:new(self.room) --this is bad but it'll work, the whole passing the self.room ref
 
   --we'll just use a simple table to keep things updated
   table.insert(UPDATELIST,Archer)

@@ -1,5 +1,5 @@
 local world = require("src.world")
-local Arr = require("src.Arrow")
+
 
 local PL = CLASS('player')
 PL:include(STATEFUL)
@@ -8,10 +8,11 @@ PL:include(STATEFUL)
 --------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------
 
-function PL:initialize()
+function PL:initialize(room)
   self.Health = 10
   self.shootTimer = 0
-
+  self.room  = room
+  self.vector = VECTOR(0,0)
   --this is how we setup the animations, I may write a
   --convinence function to make generating the file names easier. so it would be a functuon that takes the name then the range of numbers to go between and return the values.
   bodyAnimList = {}
@@ -52,7 +53,6 @@ function PL:initialize()
       "Bow",
     }
   }
-
 
   --make the sprite , args: atlas, animation dataformat, default animation.
   self.sprite = TEXMATE(myAtlas,bodyAnimList,"Death",nil,nil,0,-30)
@@ -106,16 +106,20 @@ function PL:rotBow(x,y)
   self.bowSprite:changeRotVec(self.vector)
 end
 
-function PL:shoot(dt,quit)
-
-  if quit == 0 then return end
+function PL:shoot(dt,isinput)
+  -- isinput is just if there is no input.
+  if isinput == 0 then return end
 
   self.shootTimer = self.shootTimer - 100 * dt
 
   --Adds a shoot delay
   if self.shootTimer < 0 then
-    local arrow = Arr(self.collision.body:getX(),self.collision.body:getY()-200,self.vector)
+
+    if SCENES.room then print("rest") end
+
+    self.room.quiver:forgeArrow(self.collision.body:getX(),self.collision.body:getY()-200,self.vector)
     self.shootTimer = 100
+
   end
 
 end
