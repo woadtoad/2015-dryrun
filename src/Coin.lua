@@ -1,6 +1,7 @@
 local world = require("src.world")
+
 local Coin = CLASS('Coin')
-Coin:include(STATEFUL)
+--Co:include(STATEFUL)
 Coin.static.ANIM_IDLE = 'Idle'
 
 function Coin:initialize(x, y, radius)
@@ -35,3 +36,5 @@ end
 function Coin:draw()
   self.sprite:draw()
 end
+
+return Coin

@@ -71,7 +71,7 @@ function PL:initialize(room)
 
   self.anim = {bowHeight = 10}
 
-  self.tween = TWEEN.new(1, self.anim, {bowHeight = 50}, 'inOutSine')
+  self.tween = TWEEN.new(1, self.anim, {bowHeight = 30}, 'inOutSine')
 
 end
 
@@ -89,7 +89,7 @@ function PL:update(dt)
       self.resetNo = 0
     else
       self.resetNo = 1
-      self.tween = TWEEN.new(1, self.anim, {bowHeight = 50}, 'inOutSine')
+      self.tween = TWEEN.new(1, self.anim, {bowHeight = 30}, 'inOutSine')
     end
   end
 
