@@ -32,6 +32,8 @@ function Room:initialize()
   self.bubbleSpeedAccel = 5 -- gravity
   self.bubbleSecondsBetween = 2
   self.bubbleTimer = -1 -- start straight away
+
+  self.backgroudTexture = love.graphics.newImage("assets/entities/Background.png")
 end
 
 function Room:update(dt)
@@ -52,10 +54,15 @@ function Room:update(dt)
 end
 
 function Room:draw()
+
+  --love.graphics.draw(self.backgroudTexture, 0,0,0,1,1)
+
   for i,bubble in ipairs(self.bubbles) do
     bubble:draw()
   end
   self.quiver.draw(self.quiver)
+
+
 end
 
 function Room:start()

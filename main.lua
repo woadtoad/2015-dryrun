@@ -120,6 +120,8 @@ GameState:gotoState("Game")
 function love.load()
   UI.registerEvents()
 
+  love.graphics.setBackgroundColor( 100,100,100 )
+
   print("welcome")
 
 end

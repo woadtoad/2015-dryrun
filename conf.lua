@@ -28,6 +28,8 @@ function love.conf(t)
 
   math.randomseed(os.clock ())
 
+
+
   print("HELLO TEAM WOADTOAD, WELOME TO THE 48 HOUR GAME CHALLENGE FRAMEWORK, WE HOPE YOU ENJOY YOUR DEV EXPERIENCE")
 
 end

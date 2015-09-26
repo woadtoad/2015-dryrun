@@ -28,7 +28,7 @@ function Bubble:initialize(x, y, radius)
     }
   }
 
-  self.sprite = TEXMATE(myAtlas, animlist, "Idle", nil, nil, 0, 0)
+  self.sprite = TEXMATE(myAtlas, animlist, "Idle", nil, nil, -8, 5)
 
   self.collision = world:newCircleCollider(x, y, radius, {collision_class = 'Bubble'})
   self.collision.parent = self

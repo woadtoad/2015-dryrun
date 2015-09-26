@@ -15,48 +15,46 @@ function PL:initialize(room)
   self.vector = VECTOR(0,0)
   --this is how we setup the animations, I may write a
   --convinence function to make generating the file names easier. so it would be a functuon that takes the name then the range of numbers to go between and return the values.
-  bodyAnimList = {}
+  local bodyAnimList = {}
   bodyAnimList["Death"] = {
     framerate = 14,
     frames = {
-      "Death001.png",
-      "Death002.png",
-      "Death003.png",
-      "Death004.png",
-      "Death005.png",
-      "Death006.png",
-      "Death007.png",
-      "Death008.png",
-      "Death009.png"
+            "Skid/Skid_0000",
     }
   }
 
   bodyAnimList["Run"] = {
-    framerate = 14,
+    framerate = 10,
     frames = {
-      "fastZomb001.png",
-      "fastZomb002.png",
-      "fastZomb003.png",
-      "fastZomb004.png",
-      "fastZomb005.png",
-      "fastZomb006.png",
-      "fastZomb007.png",
-      "fastZomb008.png",
-      "fastZomb009.png"
+            "Run/Run_0000",
+            "Run/Run_0001",
+            "Run/Run_0002",
+            "Run/Run_0003",
+            "Run/Run_0004",
+            "Run/Run_0005",
+            "Run/Run_0006",
+            "Run/Run_0007",
+            "Run/Run_0008",
+            "Run/Run_0009",
+            "Run/Run_0010",
+            "Run/Run_0011",
+            "Run/Run_0012",
+            "Run/Run_0013",
+            "Run/Run_0014",
     }
   }
 
-  bowAnimList = {}
+  local bowAnimList = {}
   bowAnimList["std"] = {
     framerate = 14,
     frames = {
-      "Bow.png",
+      "Bow/Bow_0000",
     }
   }
 
   --make the sprite , args: atlas, animation dataformat, default animation.
-  self.sprite = TEXMATE(myAtlas,bodyAnimList,"Death",nil,nil,0,-30)
-  self.bowSprite = TEXMATE(myAtlas,bowAnimList,"std",nil,nil,0,-30)
+  self.sprite = TEXMATE(myAtlas,bodyAnimList,"Death",nil,nil,-12,0,nil,true)
+  self.bowSprite = TEXMATE(myAtlas,bowAnimList,"std",nil,nil,-15,-60)
   self.sprite.endCallback["Run"] = function() print("run") end
 
   self.collision = world:newRectangleCollider(300, 300, 50, 50, {collision_class = 'Player'})

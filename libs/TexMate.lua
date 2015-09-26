@@ -13,7 +13,7 @@ function round(num, idp)
 
 end
 
-function _M:initialize (Atlas,animlist,defaultanim,x,y,pivotx,pivoty,rot)
+function _M:initialize (Atlas,animlist,defaultanim,x,y,pivotx,pivoty,rot,flip)
 
 	self.Atlas = Atlas
 	self.animlist = animlist
@@ -33,6 +33,10 @@ function _M:initialize (Atlas,animlist,defaultanim,x,y,pivotx,pivoty,rot)
   self.flip = -1
   self.endCallback = {}
 
+  if flip then
+    self.scale.x = self.scale.x *-1
+  end
+
 end
 
 function _M:pause ()
@@ -45,6 +49,10 @@ end
 
 --dir is a flip value, if is > 0 no flip, else is flipped
 function _M:changeAnim (anim,dir)
+  if self.activeAnim ~= anim then
+   self.iterator = 1
+  end
+
   dir = dir or 1
 	self.activeAnim = anim
 
