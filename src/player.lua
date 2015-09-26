@@ -118,7 +118,7 @@ function PL:shoot(dt,isinput)
 
     if SCENES.room then print("rest") end
 
-    self.room.quiver:forgeArrow(self.collision.body:getX(),self.collision.body:getY()-200,self.vector)
+    self.room.quiver:forgeArrow(self.collision.body:getX(),self.collision.body:getY()-100,self.vector)
     self.shootTimer = 100
 
   end
