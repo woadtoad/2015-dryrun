@@ -88,6 +88,16 @@ function PL:update(dt)
   if INPUT:down('bowx') then self:rotBow(INPUT:down('bowx'),INPUT:down('bowy')) end
   if INPUT:down('shoot') then self:shoot(dt,INPUT:down('shoot')) end
 
+  -- Player stomps arrow into dust
+  if self.collision:enter('ArrowHead') then
+    local _, arrow = self.collision:enter('ArrowHead')
+    arrow.parent:expire()
+  end
+  if self.collision:enter('ArrowShaft') then
+    local _, arrow = self.collision:enter('ArrowShaft')
+    arrow.parent:expire()
+  end
+
   self.shootTimer = self.shootTimer - 100 * dt
 end
 

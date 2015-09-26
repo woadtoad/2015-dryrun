@@ -9,11 +9,13 @@ function Arrow:initialize(x,y,vec)
 
   local angle = math.deg(math.atan2(vec.y,vec.x))
 
-  self.collision = world:newCircleCollider(x or 100, y or 100, 5, {collision_class = 'Arrow'})
+  self.collision = world:newCircleCollider(x or 100, y or 100, 5, {collision_class = 'ArrowHead'})
+  self.collision.parent = self
   self.collision.body:setFixedRotation(false)
   self.collision.fixtures['main']:setRestitution(0.6)
 
-  self.collision2 = world:newRectangleCollider(x or 100, y+30 or 100, 3,30,{collision_class = 'Arrow'})
+  self.collision2 = world:newRectangleCollider(x or 100, y+30 or 100, 3,30,{collision_class = 'ArrowShaft'})
+  self.collision2.parent = self
   self.collision2.body:setFixedRotation(false)
   self.collision.fixtures['main']:setRestitution(0.3)
 
@@ -50,12 +52,15 @@ function Arrow:draw()
 end
 
 function Arrow:drawCheck(dt)
+  local blinkSecondsStep = 0.5
+  local emptyBlinkThreshold = 0.1
+
   self.blinkCycle = self.blinkCycle + dt
-  if self.blinkCycle > 1 then
-    self.blinkCycle = self.blinkCycle - 1
+  if self.blinkCycle > blinkSecondsStep then
+    self.blinkCycle = self.blinkCycle - blinkSecondsStep
   end
 
-  if self.blinkCycle < 0.2 and self.isBlinking then
+  if self.blinkCycle < emptyBlinkThreshold and self.isBlinking then
     self.isVisible = false
   else
     self.isVisible = true
@@ -70,15 +75,14 @@ function Arrow:update(dt)
   self.sprite:changeRot(math.deg(self.collision.body:getAngle()))
 
   -- Burst on an bubble with the arrow peirces it
-  if self.collision:enter('Bubble') then
+  if self.collision:enter('Bubble') and not self:stationary() then
     local _, bubble = self.collision:enter('Bubble')
     bubble.parent:burst()
   end
 
   -- Expire the arrow if this is enabled for the arrow
   if self.canExpire then
-    local vx, vy = self.collision.body:getLinearVelocityFromWorldPoint(0, 0)
-    if vx < 0.5 and vy < 0.5 then
+    if self:stationary() then
       self:queueExpire()
     else
       if self.hasQueuedExpire then
@@ -117,6 +121,11 @@ end
 
 function Arrow:expire()
   self.expired = true
+end
+
+function Arrow:stationary()
+  local vx, vy = self.collision.body:getLinearVelocityFromWorldPoint(0, 0)
+  return vx < 0.5 and vy < 0.5
 end
 
 function Arrow:destroy()

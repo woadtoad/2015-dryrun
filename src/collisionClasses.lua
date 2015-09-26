@@ -16,6 +16,9 @@ world:addCollisionClass('Bubble', {
 })
 
 -- Arrow.lua
-world:addCollisionClass('Arrow', {
+world:addCollisionClass('ArrowHead', {
+  ignores = {'Bubble'}
+})
+world:addCollisionClass('ArrowShaft', {
   ignores = {'Bubble'}
 })
