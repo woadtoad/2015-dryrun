@@ -136,6 +136,11 @@ function vector:normalized()
 	return self:clone():normalize_inplace()
 end
 
+function vector:dot(vec)
+  return self.x*vec.x + self.y*vec.y
+end
+
+
 function vector:rotate_inplace(phi)
 	local c, s = cos(phi), sin(phi)
 	self.x, self.y = c * self.x - s * self.y, s * self.x + c * self.y

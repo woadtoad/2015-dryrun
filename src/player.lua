@@ -57,6 +57,7 @@ function PL:initialize(room)
   --make the sprite , args: atlas, animation dataformat, default animation.
   self.sprite = TEXMATE(myAtlas,bodyAnimList,"Death",nil,nil,0,-30)
   self.bowSprite = TEXMATE(myAtlas,bowAnimList,"std",nil,nil,0,-30)
+  self.sprite.endCallback["Run"] = function() print("run") end
 
   self.collision = world:newRectangleCollider(300, 300, 50, 50, {collision_class = 'Player'})
   self.collision.body:setFixedRotation(true)

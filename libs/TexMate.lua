@@ -31,6 +31,7 @@ function _M:initialize (Atlas,animlist,defaultanim,x,y,pivotx,pivoty,rot)
 	self.scale.x = scalex or 1
 	self.scale.y = scaley or 1
   self.flip = -1
+  self.endCallback = {}
 
 end
 
@@ -76,6 +77,7 @@ function  _M:Destroy ()
 	print("destroying animation")
 end
 
+
 function _M:update (dt)
 
 
@@ -86,6 +88,9 @@ function _M:update (dt)
 
 		if self.iterator > #self.animlist[self.activeAnim].frames then
 			self.iterator = 1
+
+      if self.endCallback[self.activeAnim] ~= nil then self.endCallback[self.activeAnim]() end
+
 		end
 		if self.iterator < 1 then
 			self.iterator = 1
