@@ -47,7 +47,7 @@ function PL:initialize()
   self.collision = world:newRectangleCollider(300, 300, 50, 50, {collision_class = 'Player'})
   self.collision.body:setFixedRotation(false)
   self.collision.fixtures['main']:setRestitution(0.3)
-  self.collision.body:applyLinearImpulse(100,0,self.collision.body:getX()-30,self.collision.body:getY()-30)
+  --self.collision.body:applyLinearImpulse(100,0,self.collision.body:getX()-30,self.collision.body:getY()-30)
 end
 
 function PL:update(dt)
@@ -70,6 +70,11 @@ function PL:speak()
 end
 
 function PL:keypressed(key, isrepeat)
+
+  local joysticks = love.joystick.getJoysticks()
+  for i, joystick in ipairs(joysticks) do
+    love.graphics.print(joystick:getName(), 300, i * 20)
+  end
 
 end
 
