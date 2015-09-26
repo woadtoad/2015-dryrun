@@ -14,6 +14,7 @@ function PL:initialize(room)
   self.room  = room
   self.vector = VECTOR(0,0)
   self.defaultVec = VECTOR(0,0)
+  self.resetNo = 1
   --this is how we setup the animations, I may write a
   --convinence function to make generating the file names easier. so it would be a functuon that takes the name then the range of numbers to go between and return the values.
   local bodyAnimList = {}
@@ -80,7 +81,17 @@ function PL:update(dt)
   self.sprite:update(dt)
   self.bowSprite:update(dt)
 
-  self.tween:update(dt)
+  --bow float anim. This is such a messy way of doing this.
+  local reset = self.tween:update(dt)
+  if reset then
+    if self.resetNo == 1 then
+      self.tween = TWEEN.new(1, self.anim, {bowHeight = 10}, 'inOutSine')
+      self.resetNo = 0
+    else
+      self.resetNo = 1
+      self.tween = TWEEN.new(1, self.anim, {bowHeight = 50}, 'inOutSine')
+    end
+  end
 
   --update the position of the sprite
   self.sprite:changeLoc(self.collision.body:getX(),self.collision.body:getY())
