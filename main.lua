@@ -53,6 +53,7 @@ STATEFUL = require("libs.stateful")
 UI = require("libs.thranduil.ui")
 Theme  = require("libs.thranduil.Theme")
 chatboxMaster = require('libs.thranduil.Chatbox')
+UI.DefaultTheme = Theme
 
 --SOUND --Just makes sound so much easier to handle
 TESound = require("libs.TESound")
@@ -119,7 +120,6 @@ GameState:gotoState("Game")
 --love.load really isn't a nessecary thing, it just exists to make things neat
 function love.load()
   UI.registerEvents()
-
   love.graphics.setBackgroundColor( 100,100,100 )
 
   print("welcome")
