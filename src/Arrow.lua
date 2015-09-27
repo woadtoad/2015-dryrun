@@ -31,16 +31,32 @@ function Arrow:initialize(x,y,vec)
   self.collision.body:setAngle(math.rad(angle+90))
   self.collision2.body:setAngle(math.rad(angle+90))
 
-  local arrowAnimList = {}
-  arrowAnimList = {}
-  arrowAnimList["Idle"] = {
+  self.arrowAnimList = {}
+
+  self.arrowAnimList["Launch"] = {
     framerate = 14,
+    frames = {
+            "Arrow/Impact_0000",
+            "Arrow/Impact_0001",
+            "Arrow/Impact_0002",
+            "Arrow/Impact_0003",
+            "Arrow/Impact_0004",
+            "Arrow/Impact_0005"
+    }
+  }
+  self.arrowAnimList["Idle"] = {
+    framerate = 1,
     frames = {
           "Arrow/Arrow_0000",
     }
   }
 
-  self.sprite = TEXMATE(myAtlas,arrowAnimList,"Idle",nil,nil,-8,20)
+  self.sprite = TEXMATE(myAtlas,self.arrowAnimList,"Launch",nil,nil,-8,20)
+
+
+  self.sprite.endCallback["Launch"] = function()
+      self.sprite:changeAnim("Idle")
+  end
 
   self.aliveTime = 0 -- seconds
   self.canExpire = false
@@ -72,6 +88,7 @@ function Arrow:drawCheck(dt)
 end
 
 function Arrow:update(dt)
+
   self.sprite:update(dt)
   self.timer.update(dt)
 

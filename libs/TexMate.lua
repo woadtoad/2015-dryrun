@@ -49,7 +49,7 @@ end
 
 --dir is a flip value, if is > 0 no flip, else is flipped
 function _M:changeAnim (anim,dir)
-  self.active = true
+  --self.active = true
 
   if self.activeAnim ~= anim then
    self.iterator = 1
@@ -63,6 +63,7 @@ function _M:changeAnim (anim,dir)
   else
     self.flip = 1
   end
+
 end
 
 function _M:changeLoc (x,y)
@@ -91,6 +92,11 @@ end
 
 function _M:update (dt)
 
+  if self.docallback then
+    self.endCallback[self.activeAnim]()
+    self.docallback = nil
+  end
+
 	--Active is whether we want the sprite to animate or not. We increment an iterator using delta time to keep things frame rate independent
 	if self.active == true then
 
@@ -99,7 +105,7 @@ function _M:update (dt)
 		if self.iterator > #self.animlist[self.activeAnim].frames then
 			self.iterator = 1
 
-      if self.endCallback[self.activeAnim] ~= nil then self.endCallback[self.activeAnim]() end
+      if self.endCallback[self.activeAnim] ~= nil then self.docallback = true end
 
 		end
 		if self.iterator < 1 then
@@ -107,9 +113,14 @@ function _M:update (dt)
 		end
 
 	end
+
+
+
 end
 
 function _M:draw ()
+
+
 
 	--Reset graphics colour back to white
 	love.graphics.setColor(255,255,255,255)
@@ -118,6 +129,7 @@ function _M:draw ()
 	--Binds the SpriteBatch to memory for more efficient updating.
 	self.batch:clear()
 	self.batch:bind()
+
 
 		--find the center of the sprite.
 		local tempWidth = self.Atlas.size[self.animlist[self.activeAnim].frames[round(self.iterator)]].width/2

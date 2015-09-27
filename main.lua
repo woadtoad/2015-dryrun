@@ -146,6 +146,8 @@ GameState:gotoState("Game")
 
 scale = 0
 
+defaultCamPos = {500,420}
+
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 --CALLBACKS
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -158,7 +160,9 @@ function love.load()
   love.graphics.setBackgroundColor( 100,100,100 )
 
   cam = CAMERA.new(-10000,-10000,20000,20000)
+
   cam:setScale(DEBUG_ZOOM)
+  cam:setPosition(500,420)
 
 end
 
@@ -167,7 +171,7 @@ function love.update(dt)
   GameState:update(dt)
 
 
-  cam:setPosition(500,420)
+
 
 end
 
@@ -178,14 +182,7 @@ function love.draw()
   -- draw camera stuff here
     GameState:draw()
   end)
-  --GameState:draw()
-  --[[
-  --check for joystick, debug.
-  local joysticks = love.joystick.getJoysticks()
-  for i, joystick in ipairs(joysticks) do
-    love.graphics.print(joystick:getName(), 300, i * 20)
-  end
-]]
+
 end
 
 function love.keypressed(key, isrepeat)

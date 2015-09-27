@@ -8,7 +8,7 @@ Bubble.static.ANIM_BURST = 'Burst'
 function Bubble:initialize(x, y, radius,random)
 
   self.randomSize = random
-  print(self.randomSize)
+
   -- set the defaults
   radius = radius or 35
   radius = radius * self.randomSize
@@ -53,7 +53,7 @@ function Bubble:update(dt)
 
   --update the position of the sprite
   self.sprite:changeLoc(self.collision.body:getX(),self.collision.body:getY())
-  self.sprite:changeRot(math.deg(self.collision.body:getAngle()))
+  --self.sprite:changeRot(math.deg(self.collision.body:getAngle()))
 
   --update the rotation of the sprite.
   -- TODO: emulate random wind impulses

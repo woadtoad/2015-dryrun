@@ -58,6 +58,8 @@ function Game:draw()
 
 end
 
+
+
 function Game:drawFromUpdateList()
   for i, v in pairs(UPDATELIST) do
     UPDATELIST[i]:draw()
