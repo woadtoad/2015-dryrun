@@ -22,8 +22,8 @@ world:addCollisionClass('Coin', {
 
 -- Arrow.lua
 world:addCollisionClass('ArrowHead', {
-  ignores = {'Bubble'}
+  ignores = {'Bubble', 'Player'}
 })
 world:addCollisionClass('ArrowShaft', {
-  ignores = {'Bubble'}
+  ignores = {'Bubble', 'Player'}
 })

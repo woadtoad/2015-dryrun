@@ -106,13 +106,15 @@ function PL:update(dt)
   if INPUT:down('shoot') then self:shoot(dt,INPUT:down('shoot')) end
 
   -- Player stomps arrow into dust
-  if self.collision:enter('ArrowHead') then
-    local _, arrow = self.collision:enter('ArrowHead')
-    arrow.parent:expire()
-  end
-  if self.collision:enter('ArrowShaft') then
-    local _, arrow = self.collision:enter('ArrowShaft')
-    arrow.parent:expire()
+  for i, collisionClassName in ipairs({'ArrowHead', 'ArrowShaft'}) do
+    if self.collision:enter(collisionClassName) then
+      local _, arrow = self.collision:enter(collisionClassName)
+
+      -- only stomp arrows that are 1 second or older
+      if arrow.parent.aliveTime > 1 then
+        arrow.parent:expire()
+      end
+    end
   end
 
   self.shootTimer = self.shootTimer - 100 * dt

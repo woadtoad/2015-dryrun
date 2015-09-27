@@ -41,6 +41,8 @@ function Arrow:initialize(x,y,vec)
   }
 
   self.sprite = TEXMATE(myAtlas,arrowAnimList,"Idle",nil,nil,-8,20)
+
+  self.aliveTime = 0 -- seconds
   self.canExpire = false
   self.timer = Timer.new()
   self.blinkCycle = 0
@@ -72,6 +74,9 @@ end
 function Arrow:update(dt)
   self.sprite:update(dt)
   self.timer.update(dt)
+
+  -- update alive time
+  self.aliveTime = self.aliveTime + dt
 
   self.sprite:changeLoc(self.collision.body:getX(),self.collision.body:getY())
   self.sprite:changeRot(math.deg(self.collision.body:getAngle()))
