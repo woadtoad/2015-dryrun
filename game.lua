@@ -43,11 +43,16 @@ end
 
 function Game:draw()
 
-  --Debug Drawing for physics
-  world:draw()
-  --Iterate through the items for drawing
-  for i, v in pairs(UPDATELIST) do
-    UPDATELIST[i]:draw()
+  if DEBUG then
+    --Debug Drawing for physics
+    world:draw()
+  else
+    --Debug Drawing for physics
+    world:draw()
+    --Iterate through the items for drawing
+    for i, v in pairs(UPDATELIST) do
+      UPDATELIST[i]:draw()
+    end
   end
 
 end

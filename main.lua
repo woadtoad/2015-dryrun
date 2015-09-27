@@ -31,11 +31,8 @@ toad = [[
 
 ]]
 
-
-------------------------------------------------------------------------------------------------------------------------------------------------------------
---REQUIRE
-------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+-- Check if love was parsed a debug flag
+DEBUG = arg[2] == '--debug' or  arg[2] == '-d' or false
 
 --CLASSES -- lua doesn't have classes by default, so this library handles it.
 CLASS = require("libs.middleclass")
@@ -58,8 +55,7 @@ UI.DefaultTheme = Theme
 --SOUND --Just makes sound so much easier to handle
 TESound = require("libs.TESound")
 
-local BOIPUSHY = require("libs.boipushy.Input")
-INPUT = BOIPUSHY()
+INPUT = require("libs.boipushy.Input")()
 
 --COLISSION MANAGER
 HARDON = require("libs.hardoncollider")
