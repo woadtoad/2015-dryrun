@@ -1,7 +1,7 @@
 local world = require("src.world")
 
 
-local PL = CLASS('player')
+local PL = CLASS('Player')
 PL:include(STATEFUL)
 
 --Default state
@@ -59,7 +59,7 @@ function PL:initialize(room)
   self.bowSprite = TEXMATE(myAtlas,bowAnimList,"std",nil,nil,-15,-60)
   self.sprite.endCallback["Run"] = function() print("run") end
 
-  self.collision = world:newRectangleCollider(300, 300, 50, 50, {collision_class = 'Player'})
+  self.collision = world:newCircleCollider(love.graphics.getWidth() / 2, (love.graphics.getHeight() / 2) + 200, 23, {collision_class = 'Player'})
   self.collision.body:setFixedRotation(true)
   self.collision.fixtures['main']:setRestitution(0) -- no bouncing for char.
 

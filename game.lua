@@ -18,7 +18,7 @@ function Game:initialize()
   table.insert(UPDATELIST, self.platform)
 
   --Player Class
-  player = require('src.player')
+  player = require('src.Player')
 
   --instantiate a new player.
   Archer = player:new(self.room) --this is bad but it'll work, the whole passing the self.room ref
