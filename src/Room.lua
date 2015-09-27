@@ -85,6 +85,7 @@ function Room:draw()
   self.wallLeft:draw()
   self.wallRight:draw()
   self.ground:draw()
+  self.platform:draw()
 
   for i,bubble in ipairs(self.bubbles) do
     bubble:draw()

@@ -1,6 +1,7 @@
 local world = require("src.world")
 
 local Platform = CLASS('Platform')
+Platform.static.ANIM_IDLE = 'Idle'
 
 function Platform:initialize(x, y, scale)
   -- set the dimensions of the platform
@@ -25,12 +26,26 @@ function Platform:initialize(x, y, scale)
   self.collision.fixtures['main']:setRestitution(0.3)
 
   self.joint = world:addJoint('RevoluteJoint', self.jointCollider.body, self.collision.body, x, y, false)
+
+  local animList = {}
+  animList[Platform.static.ANIM_IDLE] = {
+    framerate = 14,
+    frames = {
+      'platform/Platform_0000'
+    }
+  }
+  self.sprite = TEXMATE(myAtlas,animList,Platform.static.ANIM_IDLE)
+
 end
 
 function Platform:update(dt)
+  self.sprite:update(dt)
+  self.sprite:changeLoc(self.collision.body:getPosition())
+  self.sprite:changeRot(math.deg(self.collision.body:getAngle()))
 end
 
 function Platform:draw()
+  self.sprite:draw()
 end
 
 return Platform
