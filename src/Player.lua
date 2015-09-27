@@ -18,32 +18,53 @@ function PL:initialize(room)
   --this is how we setup the animations, I may write a
   --convinence function to make generating the file names easier. so it would be a functuon that takes the name then the range of numbers to go between and return the values.
   local bodyAnimList = {}
-  bodyAnimList["Death"] = {
-    framerate = 14,
+  bodyAnimList["Idle"] = {
+    framerate = 10,
     frames = {
-            "Skid/Skid_0000",
+            "deud/Idle_0000",
+            "deud/Idle_0001",
+            "deud/Idle_0002",
+            "deud/Idle_0003",
+            "deud/Idle_0004",
+            "deud/Idle_0005",
+            "deud/Idle_0006",
+            "deud/Idle_0007",
+            "deud/Idle_0008",
     }
   }
 
   bodyAnimList["Run"] = {
     framerate = 10,
     frames = {
-            "Run/Run_0000",
-            "Run/Run_0001",
-            "Run/Run_0002",
-            "Run/Run_0003",
-            "Run/Run_0004",
-            "Run/Run_0005",
-            "Run/Run_0006",
-            "Run/Run_0007",
-            "Run/Run_0008",
-            "Run/Run_0009",
-            "Run/Run_0010",
-            "Run/Run_0011",
-            "Run/Run_0012",
-            "Run/Run_0013",
-            "Run/Run_0014",
-    }
+            "deud/Run_0000",
+            "deud/Run_0001",
+            "deud/Run_0002",
+            "deud/Run_0003",
+            "deud/Run_0004",
+            "deud/Run_0005",
+            "deud/Run_0006",
+            "deud/Run_0007",
+            "deud/Run_0008",
+            "deud/Run_0009",
+            "deud/Run_0010",
+            "deud/Run_0011",
+            "deud/Run_0012",
+            "deud/Run_0013",
+            "deud/Run_0014"
+          }
+  }
+
+  bodyAnimList["Skid"] = {
+    framerate = 10,
+    frames = {
+            "deud/Skid_0000",
+            "deud/Skid_0001",
+            "deud/Skid_0002",
+            "deud/Skid_0003",
+            "deud/Skid_0004",
+            "deud/Skid_0005",
+            "deud/Skid_0006","deud/Skid_0006","deud/Skid_0006","deud/Skid_0006","deud/Skid_0006","deud/Skid_0006","deud/Skid_0006","deud/Skid_0006",
+          }
   }
 
   local bowAnimList = {}
@@ -54,10 +75,11 @@ function PL:initialize(room)
     }
   }
 
+
   --make the sprite , args: atlas, animation dataformat, default animation.
-  self.sprite = TEXMATE(myAtlas,bodyAnimList,"Death",nil,nil,-12,0,nil,true)
+  self.sprite = TEXMATE(myAtlas,bodyAnimList,"Idle",nil,nil,-12,0,nil,true)
   self.bowSprite = TEXMATE(myAtlas,bowAnimList,"std",nil,nil,-15,-60)
-  self.sprite.endCallback["Run"] = function() print("run") end
+  self.sprite.endCallback["Skid"] = function() self.sprite:pause() end
 
   self.collision = world:newCircleCollider(love.graphics.getWidth() / 2, (love.graphics.getHeight() / 2) + 200, 23, {collision_class = 'Player'})
   self.collision.body:setFixedRotation(true)
@@ -140,7 +162,13 @@ function PL:moveX(dir)
     self.sprite:changeAnim("Run",dir)
     self.collision.body:applyLinearImpulse(speed,0,self.collision.body:getX(),self.collision.body:getY())
   else
-    self.sprite:changeAnim("Death",dir)
+    local x = self.collision.body:getLinearVelocity()
+
+    if x > 10 or x < -10 then
+      self.sprite:changeAnim("Skid",dir)
+    else
+      self.sprite:changeAnim("Idle",dir)
+    end
   end
 
 end

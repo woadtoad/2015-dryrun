@@ -19,7 +19,7 @@ function Room:initialize()
     body_type = 'static',
     collision_class = 'RoomWall'
   })
-  self.rWall = world:newRectangleCollider(love.graphics.getWidth(), 0, Room.static.WALL_WIDTH-140, Room.static.WALL_HEIGHT, {
+  self.rWall = world:newRectangleCollider(love.graphics.getWidth()-140, 0, Room.static.WALL_WIDTH, Room.static.WALL_HEIGHT, {
     body_type = 'static',
     collision_class = 'RoomWall'
   })
@@ -45,7 +45,6 @@ function Room:initialize()
 
     -- Platform
   self.platform = Platform(-55,0,0.8)
-
 
 end
 
