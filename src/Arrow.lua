@@ -87,6 +87,15 @@ function Arrow:update(dt)
     bubble.parent:burst()
   end
 
+  if self.collision:enter('Platform') then
+    local _, wall = self.collision:enter('Platform')
+    local x, y = self.collision.body:getPosition()
+    local joint = world:addJoint('RevoluteJoint', self.collision.body, wall.body, x, y, true)
+
+    self.timer.add(0.5, function() joint:destroy() end)
+  end
+
+
   -- Expire the arrow if this is enabled for the arrow
   if self.canExpire then
     if self:stationary() then
@@ -99,6 +108,9 @@ function Arrow:update(dt)
   end
 
   self:drawCheck(dt)
+
+
+
 end
 
 function Arrow:setExpiration(expireSeconds)
