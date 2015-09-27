@@ -49,7 +49,7 @@ end
 
 --dir is a flip value, if is > 0 no flip, else is flipped
 function _M:changeAnim (anim,dir)
-  --self.active = true
+  self.active = true
 
   if self.activeAnim ~= anim then
    self.iterator = 1

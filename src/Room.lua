@@ -3,6 +3,7 @@ local Bubble = require('src.Bubble')
 local Quiver = require("src.Quiver")
 local Coin = require('src.Coin')
 local Platform = require('src.Platform')
+local Cauldron = require('src.Cauldron')
 
 -- The room is the physical ground and walls in the world
 local Room = CLASS('Room')
@@ -59,10 +60,13 @@ function Room:initialize()
     -- Platform
   self.platform = Platform(-55,0,0.8)
 
+  self.cauldron = Cauldron(480,100)
+
 end
 
 function Room:update(dt)
   self.quiver:update(dt)
+  self.cauldron:update(dt)
   self.platform:update(dt)
 
   if self.hasBubbles then
@@ -109,6 +113,7 @@ function Room:draw()
   self.wallRight:draw()
   self.ground:draw()
   self.platform:draw()
+  self.cauldron:draw(dt)
 
   for i,bubble in ipairs(self.bubbles) do
     bubble:draw()
