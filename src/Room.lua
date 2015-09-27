@@ -6,8 +6,9 @@ local Platform = require('src.Platform')
 
 -- The room is the physical ground and walls in the world
 local Room = CLASS('Room')
-Room.static.WALL_WIDTH = 1;
+Room.static.WALL_WIDTH = 50;
 Room.static.WALL_HEIGHT = 800 * 2; -- allows easy trapping of bubbles into deadzone
+Room.static.WALL_RIGHT_OFFSET = -140;
 Room.static.GROUND_HEIGHT = 50;
 Room.static.ROOF_HEIGHT = 50;
 
@@ -21,11 +22,11 @@ function Room:initialize()
     body_type = 'static',
     collision_class = 'RoomRoof'
   })
-  self.lWall = world:newRectangleCollider(-1, 0, Room.static.WALL_WIDTH+50, Room.static.WALL_HEIGHT, {
+  self.lWall = world:newRectangleCollider(-1, 0 - (Room.static.WALL_HEIGHT / 2 / 2), Room.static.WALL_WIDTH, Room.static.WALL_HEIGHT, {
     body_type = 'static',
     collision_class = 'RoomWall'
   })
-  self.rWall = world:newRectangleCollider(love.graphics.getWidth()-140, 0, Room.static.WALL_WIDTH, Room.static.WALL_HEIGHT, {
+  self.rWall = world:newRectangleCollider(love.graphics.getWidth() + Room.static.WALL_RIGHT_OFFSET, 0 - (Room.static.WALL_HEIGHT / 2 / 2), Room.static.WALL_WIDTH, Room.static.WALL_HEIGHT, {
     body_type = 'static',
     collision_class = 'RoomWall'
   })
@@ -155,8 +156,8 @@ end
 
 function Room:getRandXSpawn(steps)
   steps = steps or 16
-  local stepWidth = (love.graphics.getWidth()-300) / steps
-  return math.floor(math.random(0, steps + 1)) * stepWidth
+  local stepWidth = (love.graphics.getWidth() - (Room.static.WALL_WIDTH * 2) + Room.static.WALL_RIGHT_OFFSET) / steps
+  return Room.static.WALL_WIDTH + math.floor(math.random(0, steps + 1)) * stepWidth
 end
 
 return Room
