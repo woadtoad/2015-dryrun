@@ -30,6 +30,7 @@ end
 
 function Game:update(dt)
 
+
   if love.joystick.isDown then
     print("controller")
   end

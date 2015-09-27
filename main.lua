@@ -82,7 +82,7 @@ TIMER = require("libs.hump.timer")
 --TWEEN
 TWEEN = require("libs.tween.tween")
 
-CAMERA = require("libs.hump.camera")
+CAMERA = require("libs.gamera.gamera")
 
 --VECTOR CLASS
 VECTOR = require("libs.hump.vector")
@@ -125,6 +125,7 @@ GameState:initialize()
 
 GameState:gotoState("Game")
 
+scale = 0
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 --CALLBACKS
@@ -139,25 +140,35 @@ function love.load()
 
   print("welcome")
 
+  cam = CAMERA.new(-10000,-10000,20000,20000)
+  cam:setScale(1)
+
 end
 
 function love.update(dt)
   --passes the update callback to the gamestate
   GameState:update(dt)
 
+
+  cam:setPosition(500,420)
+
 end
 
 function love.draw()
 
   --passes the drawcallback to the gamestate
-  GameState:draw()
-
+  cam:draw(function(l,t,w,h)
+  -- draw camera stuff here
+    GameState:draw()
+  end)
+  --GameState:draw()
+  --[[
   --check for joystick, debug.
   local joysticks = love.joystick.getJoysticks()
   for i, joystick in ipairs(joysticks) do
     love.graphics.print(joystick:getName(), 300, i * 20)
   end
-
+]]
 end
 
 function love.keypressed(key, isrepeat)
