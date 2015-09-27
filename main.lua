@@ -31,8 +31,21 @@ toad = [[
 
 ]]
 
--- Check if love was parsed a debug flag
-DEBUG = arg[2] == '--debug' or  arg[2] == '-d' or false
+DEBUG_MODES = {
+  SHOW_GAME = 0,
+  SHOW_GAME_AND_COLLISION = 1,
+  SHOW_ONLY_COLLISION = 2
+}
+DEBUG = DEBUG_MODES.SHOW_GAME
+
+local debugCliArg = arg[2]
+if debugCliArg then
+  if string.find(debugCliArg, '^--debug') ~= nil then
+    local debugValue = tonumber(string.match(debugCliArg, '^--debug=(%d)'))
+
+    DEBUG = debugValue or DEBUG_MODES.SHOW_GAME_AND_COLLISION
+  end
+end
 
 --CLASSES -- lua doesn't have classes by default, so this library handles it.
 CLASS = require("libs.middleclass")

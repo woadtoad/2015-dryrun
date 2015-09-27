@@ -43,18 +43,24 @@ end
 
 function Game:draw()
 
-  if DEBUG then
-    --Debug Drawing for physics
-    world:draw()
-  else
-    --Debug Drawing for physics
-    world:draw()
+  if DEBUG == DEBUG_MODES.SHOW_GAME or DEBUG == DEBUG_MODES.SHOW_GAME_AND_COLLISION then
     --Iterate through the items for drawing
-    for i, v in pairs(UPDATELIST) do
-      UPDATELIST[i]:draw()
-    end
+      for i, v in pairs(UPDATELIST) do
+        UPDATELIST[i]:draw()
+      end
   end
 
+  if DEBUG == DEBUG_MODES.SHOW_GAME_AND_COLLISION or DEBUG == DEBUG_MODES.SHOW_ONLY_COLLISION then
+    --Debug Drawing for physics
+    world:draw()
+  end
+
+end
+
+function Game:drawFromUpdateList()
+  for i, v in pairs(UPDATELIST) do
+    UPDATELIST[i]:draw()
+  end
 end
 
 function Game:keypressed(key, isrepeat)
