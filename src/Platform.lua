@@ -24,23 +24,16 @@ function Platform:initialize(x, y, scale)
   self.collision.parent = self
   self.collision.body:setFixedRotation(false)
   self.collision.fixtures['main']:setRestitution(0.3)
-  self.collision.fixtures['main']:setDensity(10)
+  self.collision.fixtures['main']:setDensity(100)
+  self.collision.body:setAngularDamping(0.8)
 
   self.joint = world:addJoint('RevoluteJoint', self.jointCollider.body, self.collision.body, x, y, false)
 
-  local animList = {}
-  animList[Platform.static.ANIM_IDLE] = {
-    framerate = 14,
-    frames = {
-      'platform/Platform_0000'
-    }
-  }
-  self.sprite = TEXMATE(myAtlas,animList,Platform.static.ANIM_IDLE)
-
+  self.sprite = TEXMATESTATIC(bgAtlas,"platform/Platform_0000",nil,nil,530,410,nil,nil,0.83)
 end
 
 function Platform:update(dt)
-  self.sprite:update(dt)
+  --self.sprite:update(dt)
   self.sprite:changeLoc(self.collision.body:getPosition())
   self.sprite:changeRot(math.deg(self.collision.body:getAngle()))
 end

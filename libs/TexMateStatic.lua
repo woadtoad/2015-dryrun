@@ -13,7 +13,7 @@ function round(num, idp)
 
 end
 
-function _M:initialize (Atlas,imageid,x,y,pivotx,pivoty,rot,flip)
+function _M:initialize (Atlas,imageid,x,y,pivotx,pivoty,rot,flip,scale)
 
 	self.Atlas = Atlas
 	self.image = imageid
@@ -26,8 +26,8 @@ function _M:initialize (Atlas,imageid,x,y,pivotx,pivoty,rot,flip)
 	self.y = y or 100
 	self.rot = rot or 0
 	self.scale = {}
-	self.scale.x = scalex or 1
-	self.scale.y = scaley or 1
+	self.scale.x = scale or 1
+	self.scale.y = scale or 1
   self.flip = -1
   self.endCallback = {}
 

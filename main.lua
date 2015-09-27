@@ -72,7 +72,7 @@ INPUT = require("libs.boipushy.Input")()
 
 --COLISSION MANAGER
 HARDON = require("libs.hardoncollider")
-
+"platform/Platform_0000"
 --Texmate is my own personal animation library for texture packer.
 TEXMATE = require("libs.TexMate")
 TEXMATESTATIC = require("libs.TexMateStatic")

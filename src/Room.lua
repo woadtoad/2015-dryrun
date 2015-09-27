@@ -38,7 +38,7 @@ function Room:initialize()
   -- pickups state
   self.pickups = {}
 
-  self.background = TEXMATESTATIC(bgAtlas,"background/Background_0000",-2,798)
+  self.background = TEXMATESTATIC(bgAtlas,"Background/Background_0000",-2,798)
   self.wallLeft = TEXMATESTATIC(bgAtlas,"Walls/Wall1_0000",420,800)
   self.wallRight = TEXMATESTATIC(bgAtlas,"Walls/Wall2_0000",-530,800)
   self.ground = TEXMATESTATIC(bgAtlas,"floor/Floor_0000",-40,1200)
@@ -80,7 +80,7 @@ end
 
 function Room:draw()
 
-  self.background:draw()
+  --self.background:draw()
   self.wallLeft:draw()
   self.wallRight:draw()
   self.ground:draw()
