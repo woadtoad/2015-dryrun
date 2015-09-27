@@ -34,6 +34,9 @@ function Room:initialize()
   self.bubbleSecondsBetween = 2
   self.bubbleTimer = -1 -- start straight away
 
+  -- pickups state
+  self.pickups = {}
+
   self.backgroudTexture = love.graphics.newImage("assets/entities/Background.png")
 end
 
@@ -47,12 +50,22 @@ function Room:update(dt)
       if bubble.health > 0 then
         bubble:update(dt)
       else
-        pos = VECTOR(bubble.collision.body:getX(),bubble.collision.body:getY())
-        Room:spawnPowerup(pos)
+        self:spawnPickup(bubble.collision.body:getPosition())
+
         bubble:destroy()
         table.remove(self.bubbles, i)
       end
     end
+
+    for i,pickup in ipairs(self.pickups) do
+      if not pickup.pickedUp then
+        pickup:update(dt)
+      else
+        pickup:destroy()
+        table.remove(self.pickups, i)
+      end
+    end
+
   end
 end
 
@@ -63,8 +76,12 @@ function Room:draw()
   for i,bubble in ipairs(self.bubbles) do
     bubble:draw()
   end
-  self.quiver.draw(self.quiver)
 
+  for i,pickup in ipairs(self.pickups) do
+    pickup:draw()
+  end
+
+  self.quiver.draw(self.quiver)
 
 end
 
@@ -80,13 +97,9 @@ function Room:attemptToCreateBubble(dt)
   self.bubbleTimer = self.bubbleTimer - 100 * dt
 
   if self.bubbleTimer < 0 then
-    local xSteps = 16
-    local xStepWidth = love.graphics.getWidth() / xSteps
-    local randomX = math.floor(math.random(0, xSteps + 1)) * xStepWidth
-
     local bubbleRadius = 35
 
-    local bubble = Bubble(randomX, love.graphics.getHeight() + bubbleRadius * 2, bubbleRadius);
+    local bubble = Bubble(Room:getRandXSpawn(), love.graphics.getHeight() + bubbleRadius * 2, bubbleRadius);
     table.insert(self.bubbles, bubble)
     self:resetBubbleTimer()
   end
@@ -97,11 +110,17 @@ function Room:resetBubbleTimer()
 end
 
 -- Spawn a powerup at a position
-function Room:spawnPowerup(position)
-  if(position.x and position.y) then
-    print(position)
-    local coin = Coin(position.x, position.y, 20);
+function Room:spawnPickup(x, y)
+  if(x and y) then
+    local coin = Coin(x, y, 15);
+    table.insert(self.pickups, coin)
   end
+end
+
+function Room:getRandXSpawn(steps)
+  steps = steps or 16
+  local stepWidth = love.graphics.getWidth() / steps
+  return math.floor(math.random(0, steps + 1)) * stepWidth
 end
 
 return Room

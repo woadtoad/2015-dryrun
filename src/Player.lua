@@ -117,6 +117,18 @@ function PL:update(dt)
     end
   end
 
+  -- Player pickups (a loop, anticipating more pickups)
+  for i, collisionClassName in ipairs({'Coin'}) do
+    if self.collision:enter(collisionClassName) then
+      local _, pickup = self.collision:enter(collisionClassName)
+
+      -- Pickups should not be picked up as soon as their colliders are created
+      if pickup.parent.aliveTime > 0.5 then
+        pickup.parent:pickup()
+      end
+    end
+  end
+
   self.shootTimer = self.shootTimer - 100 * dt
 end
 

@@ -17,7 +17,7 @@ world:addCollisionClass('Bubble', {
 
 -- Coin.lua
 world:addCollisionClass('Coin', {
-  ignores = {'RoomGround'}
+  ignores = {'RoomGround', 'Player'}
 })
 
 -- Arrow.lua
