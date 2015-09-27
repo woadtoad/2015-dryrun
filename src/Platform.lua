@@ -24,6 +24,7 @@ function Platform:initialize(x, y, scale)
   self.collision.parent = self
   self.collision.body:setFixedRotation(false)
   self.collision.fixtures['main']:setRestitution(0.3)
+  self.collision.fixtures['main']:setDensity(10)
 
   self.joint = world:addJoint('RevoluteJoint', self.jointCollider.body, self.collision.body, x, y, false)
 

@@ -69,6 +69,8 @@ TIMER = require("libs.hump.timer")
 --TWEEN
 TWEEN = require("libs.tween.tween")
 
+CAMERA = require("libs.hump.camera")
+
 --VECTOR CLASS
 VECTOR = require("libs.hump.vector")
 

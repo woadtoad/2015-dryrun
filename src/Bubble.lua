@@ -5,9 +5,13 @@ Bubble:include(STATEFUL)
 Bubble.static.ANIM_IDLE = 'Idle'
 Bubble.static.ANIM_BURST = 'Burst'
 
-function Bubble:initialize(x, y, radius)
+function Bubble:initialize(x, y, radius,random)
+
+  self.randomSize = random
+  print(self.randomSize)
   -- set the defaults
   radius = radius or 35
+  radius = radius * self.randomSize
   x = x or (love.graphics.getWidth() / 2) - (radius / 2)
   y = y or (love.graphics.getHeight() / 2) - (radius / 2)
 
@@ -32,13 +36,14 @@ function Bubble:initialize(x, y, radius)
     }
   }
 
-  self.sprite = TEXMATE(myAtlas, animlist, "Idle", nil, nil, -8, 5)
+  self.sprite = TEXMATE(myAtlas, animlist, "Idle", nil, nil, -8, 5,nil,nil,self.randomSize)
 
   self.collision = world:newCircleCollider(x, y, radius, {collision_class = 'Bubble'})
   self.collision.parent = self
   self.collision.body:setFixedRotation(false)
   self.collision.body:setLinearDamping(0.6)
   self.collision.fixtures['main']:setRestitution(0.7)
+  self.collision.fixtures['main']:setDensity(0.01)
 end
 
 function Bubble:update(dt)
@@ -54,7 +59,7 @@ function Bubble:update(dt)
   -- apply continuous anti-grav force
   local xVel, yVel = self.collision.body:getLinearVelocity()
   if yVel > -100 then
-    self.collision.body:applyForce(0, -2500)
+    self.collision.body:applyForce(0, -1000)
   end
 end
 

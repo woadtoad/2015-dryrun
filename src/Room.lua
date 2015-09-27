@@ -112,7 +112,7 @@ function Room:attemptToCreateBubble(dt)
   if self.bubbleTimer < 0 then
     local bubbleRadius = 35
 
-    local bubble = Bubble(Room:getRandXSpawn(), love.graphics.getHeight() + bubbleRadius * 2, bubbleRadius);
+    local bubble = Bubble(Room:getRandXSpawn(), love.graphics.getHeight() + bubbleRadius * 2, bubbleRadius, math.random(300,1000)/1000 );
     table.insert(self.bubbles, bubble)
     self:resetBubbleTimer()
   end
@@ -132,7 +132,7 @@ end
 
 function Room:getRandXSpawn(steps)
   steps = steps or 16
-  local stepWidth = love.graphics.getWidth() / steps
+  local stepWidth = (love.graphics.getWidth()-300) / steps
   return math.floor(math.random(0, steps + 1)) * stepWidth
 end
 
