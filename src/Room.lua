@@ -80,7 +80,7 @@ end
 
 function Room:draw()
 
-  --self.background:draw()
+  self.background:draw()
   self.wallLeft:draw()
   self.wallRight:draw()
   self.ground:draw()
