@@ -2,17 +2,21 @@ local world = require('src.world')
 
 -- Room.lua
 world:addCollisionClass('RoomWall')
+world:addCollisionClass('RoomRoof')
 world:addCollisionClass('RoomGround')
+world:addCollisionClass('RoomDeadZone')
 
 -- Player.lua
 world:addCollisionClass('Player')
 
 -- Platform.lua
-world:addCollisionClass('Platform')
+world:addCollisionClass('Platform', {
+  ignores = {'RoomRoof'}
+})
 
 -- Bubble.lua
 world:addCollisionClass('Bubble', {
-  ignores = {'RoomGround'}
+  ignores = {'RoomGround', 'RoomRoof'}
 })
 
 -- Coin.lua

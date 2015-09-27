@@ -44,6 +44,8 @@ function Bubble:initialize(x, y, radius,random)
   self.collision.body:setLinearDamping(0.6)
   self.collision.fixtures['main']:setRestitution(0.7)
   self.collision.fixtures['main']:setDensity(0.01)
+
+  self.hasBurst = false
 end
 
 function Bubble:update(dt)
@@ -72,9 +74,14 @@ end
 function Bubble:burst()
   self.sprite:changeAnim(Bubble.static.ANIM_BURST)
   self.sprite.endCallback[Bubble.static.ANIM_BURST] = function()
-    self.health = 0
+    self:expire()
     self.sprite:pause()
+    self.hasBurst = true
   end
+end
+
+function Bubble:expire()
+  self.health = 0
 end
 
 function Bubble:destroy()

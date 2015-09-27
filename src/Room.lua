@@ -7,13 +7,19 @@ local Platform = require('src.Platform')
 -- The room is the physical ground and walls in the world
 local Room = CLASS('Room')
 Room.static.WALL_WIDTH = 1;
-Room.static.WALL_HEIGHT = 800;
+Room.static.WALL_HEIGHT = 800 * 2; -- allows easy trapping of bubbles into deadzone
+Room.static.GROUND_HEIGHT = 50;
+Room.static.ROOF_HEIGHT = 50;
 
 function Room:initialize()
-  -- Setup room colliders, ground and walls
-  self.ground = world:newRectangleCollider(0, 750, 1024, 50, {
+  -- Setup room physicals
+  self.ground = world:newRectangleCollider(0, 750, love.graphics.getWidth(), Room.static.GROUND_HEIGHT, {
     body_type = 'static',
     collision_class = 'RoomGround'
+  })
+  self.roof = world:newRectangleCollider(0, -Room.static.ROOF_HEIGHT, love.graphics.getWidth(), Room.static.ROOF_HEIGHT, {
+    body_type = 'static',
+    collision_class = 'RoomRoof'
   })
   self.lWall = world:newRectangleCollider(-1, 0, Room.static.WALL_WIDTH+50, Room.static.WALL_HEIGHT, {
     body_type = 'static',
@@ -22,6 +28,12 @@ function Room:initialize()
   self.rWall = world:newRectangleCollider(love.graphics.getWidth()-140, 0, Room.static.WALL_WIDTH, Room.static.WALL_HEIGHT, {
     body_type = 'static',
     collision_class = 'RoomWall'
+  })
+
+  -- Setup room dead zones
+  self.deadZone = world:newRectangleCollider(0, -Room.static.ROOF_HEIGHT - 100, love.graphics.getWidth(), Room.static.ROOF_HEIGHT, {
+    body_type = 'static',
+    collision_class = 'RoomDeadZone'
   })
 
   -- arrow constructor class
@@ -59,7 +71,9 @@ function Room:update(dt)
       if bubble.health > 0 then
         bubble:update(dt)
       else
-        self:spawnPickup(bubble.collision.body:getPosition())
+        if bubble.hasBurst then
+          self:spawnPickup(bubble.collision.body:getPosition())
+        end
 
         bubble:destroy()
         table.remove(self.bubbles, i)
@@ -74,7 +88,16 @@ function Room:update(dt)
         table.remove(self.pickups, i)
       end
     end
+  end
 
+  -- destroy things on the deadzone
+  for i,collisionClassName in ipairs({'Bubble'}) do
+    if self.deadZone:enter(collisionClassName) then
+      local _, dead = self.deadZone:enter(collisionClassName)
+      if dead.parent.expire then
+        dead.parent:expire()
+      end
+    end
   end
 end
 
