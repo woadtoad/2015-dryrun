@@ -7,13 +7,11 @@ Bubble.static.ANIM_BURST = 'Burst'
 
 function Bubble:initialize(x, y, radius,random)
 
-  self.randomSize = random
-
   -- set the defaults
-  radius = radius or 35
-  radius = radius * self.randomSize
-  x = x or (love.graphics.getWidth() / 2) - (radius / 2)
-  y = y or (love.graphics.getHeight() / 2) - (radius / 2)
+  self.random = random
+  self.radius = (radius or 35) * self.random
+  self.x = x or (love.graphics.getWidth() / 2) - (radius / 2)
+  self.y = y or (love.graphics.getHeight() / 2) - (radius / 2)
 
   self.health = 1
 
@@ -36,14 +34,14 @@ function Bubble:initialize(x, y, radius,random)
     }
   }
 
-  self.sprite = TEXMATE(myAtlas, animlist, "Idle", nil, nil, -8, 5,nil,nil,self.randomSize)
+  self.sprite = TEXMATE(myAtlas, animlist, "Idle", nil, nil, -8, 5,nil,nil,self.random)
 
-  self.collision = world:newCircleCollider(x, y, radius, {collision_class = 'Bubble'})
+  self.collision = world:newCircleCollider(self.x, self.y, self.radius, {collision_class = 'Bubble'})
   self.collision.parent = self
   self.collision.body:setFixedRotation(false)
   self.collision.body:setLinearDamping(0.6)
   self.collision.fixtures['main']:setRestitution(0.7)
-  self.collision.fixtures['main']:setDensity(0.01)
+  self.collision.fixtures['main']:setDensity(0.007)
 
   self.hasBurst = false
 end
@@ -61,7 +59,10 @@ function Bubble:update(dt)
   -- apply continuous anti-grav force
   local xVel, yVel = self.collision.body:getLinearVelocity()
   if yVel > -100 then
-    self.collision.body:applyForce(0, -1000)
+    local yforce = -1500
+    local forceMod = (self.collision.body:getMass() / 10) * (yforce / 1.5)
+    yforce = forceMod + yforce
+    self.collision.body:applyForce(0, yforce)
   end
 end
 
