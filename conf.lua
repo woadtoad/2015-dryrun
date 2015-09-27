@@ -30,6 +30,6 @@ function love.conf(t)
 
 
 
-  print("HELLO TEAM WOADTOAD, WELOME TO THE 48 HOUR GAME CHALLENGE FRAMEWORK, WE HOPE YOU ENJOY YOUR DEV EXPERIENCE")
+  print("Woad Toads first game! It is a dryrun.\n")
 
 end

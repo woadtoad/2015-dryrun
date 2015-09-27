@@ -40,10 +40,7 @@ DEBUG = DEBUG_MODES.SHOW_GAME
 DEBUG_ZOOM = 1
 
 local cliArgs = {}
-print(#arg)
 for i=1,(#arg - 1) do
-  -- print(i)
-  print('cliArgs['..i..']', arg[i + 1])
   table.insert(cliArgs, arg[i + 1])
 end
 
@@ -53,16 +50,21 @@ for i,cliArg in ipairs(cliArgs) do
     local debugValue = tonumber(string.match(cliArg, '^--debug=(%d)'))
 
     DEBUG = debugValue or DEBUG_MODES.SHOW_GAME_AND_COLLISION
-    print('DEBUG', DEBUG)
   end
 
   if string.find(cliArg, '^--zoom') ~= nil then
     local debugValue = tonumber(string.match(cliArg, '^--zoom=(%d%.?%d?)'))
 
     DEBUG_ZOOM = debugValue or 0.5
-    print('DEBUG_ZOOM', DEBUG_ZOOM)
   end
 end
+
+print('Info')
+print('----')
+print('DEBUG:      ' .. require('src.util').getkeyfromvalue(DEBUG_MODES, DEBUG))
+print('DEBUG_ZOOM: ' .. DEBUG_ZOOM)
+print('----\n')
+
 
 --CLASSES -- lua doesn't have classes by default, so this library handles it.
 CLASS = require("libs.middleclass")
@@ -154,8 +156,6 @@ scale = 0
 function love.load()
   UI.registerEvents()
   love.graphics.setBackgroundColor( 100,100,100 )
-
-  print("welcome")
 
   cam = CAMERA.new(-10000,-10000,20000,20000)
   cam:setScale(DEBUG_ZOOM)
