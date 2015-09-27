@@ -1,6 +1,6 @@
 local world = require('src.world')
 local Room = require('src.Room')
-local Platform = require('src.Platform')
+
 
 local Game = SCENES:addState('Game')
 
@@ -13,9 +13,6 @@ function Game:initialize()
   self.room = Room()
   table.insert(UPDATELIST, self.room)
 
-  -- Platform
-  self.platform = Platform()
-  table.insert(UPDATELIST, self.platform)
 
   --Player Class
   player = require('src.Player')

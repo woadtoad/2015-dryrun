@@ -10,8 +10,8 @@ function Platform:initialize(x, y, scale)
   local height = 40
 
   -- set defaults
-  x = x or (love.graphics.getWidth() / 2)
-  y = y or height * 5
+  x = (love.graphics.getWidth() / 2) +x
+  y = height * 5 + y
   scale = scale or 1
   width = width * scale
 

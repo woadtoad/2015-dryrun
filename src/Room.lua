@@ -2,6 +2,7 @@ local world = require('src.world')
 local Bubble = require('src.Bubble')
 local Quiver = require("src.Quiver")
 local Coin = require('src.Coin')
+local Platform = require('src.Platform')
 
 -- The room is the physical ground and walls in the world
 local Room = CLASS('Room')
@@ -14,11 +15,11 @@ function Room:initialize()
     body_type = 'static',
     collision_class = 'RoomGround'
   })
-  self.lWall = world:newRectangleCollider(-1, 0, Room.static.WALL_WIDTH, Room.static.WALL_HEIGHT, {
+  self.lWall = world:newRectangleCollider(-1, 0, Room.static.WALL_WIDTH+50, Room.static.WALL_HEIGHT, {
     body_type = 'static',
     collision_class = 'RoomWall'
   })
-  self.rWall = world:newRectangleCollider(love.graphics.getWidth(), 0, Room.static.WALL_WIDTH, Room.static.WALL_HEIGHT, {
+  self.rWall = world:newRectangleCollider(love.graphics.getWidth(), 0, Room.static.WALL_WIDTH-140, Room.static.WALL_HEIGHT, {
     body_type = 'static',
     collision_class = 'RoomWall'
   })
@@ -37,11 +38,20 @@ function Room:initialize()
   -- pickups state
   self.pickups = {}
 
-  self.backgroudTexture = love.graphics.newImage("assets/entities/Background.png")
+  self.background = TEXMATESTATIC(bgAtlas,"background/Background_0000",-2,798)
+  self.wallLeft = TEXMATESTATIC(bgAtlas,"Walls/Wall1_0000",420,800)
+  self.wallRight = TEXMATESTATIC(bgAtlas,"Walls/Wall2_0000",-530,800)
+  self.ground = TEXMATESTATIC(bgAtlas,"floor/Floor_0000",-40,1200)
+
+    -- Platform
+  self.platform = Platform(-55,0,0.8)
+
+
 end
 
 function Room:update(dt)
   self.quiver:update(dt)
+  self.platform:update(dt)
 
   if self.hasBubbles then
     self:attemptToCreateBubble(dt)
@@ -71,7 +81,10 @@ end
 
 function Room:draw()
 
-  --love.graphics.draw(self.backgroudTexture, 0,0,0,1,1)
+  self.background:draw()
+  self.wallLeft:draw()
+  self.wallRight:draw()
+  self.ground:draw()
 
   for i,bubble in ipairs(self.bubbles) do
     bubble:draw()

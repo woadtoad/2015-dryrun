@@ -66,7 +66,7 @@ HARDON = require("libs.hardoncollider")
 
 --Texmate is my own personal animation library for texture packer.
 TEXMATE = require("libs.TexMate")
-
+TEXMATESTATIC = require("libs.TexMateStatic")
 --TIMER!
 TIMER = require("libs.hump.timer")
 
@@ -95,6 +95,7 @@ package.path = package.path .. ';assets/entities/?.lua'
 --Call out global functions here for cleanliness sake!
 
 myAtlas = AtlasImporter.loadAtlasTexturePacker("assets.entities.entitiesC","assets/entities/entitiesC.png")
+bgAtlas = AtlasImporter.loadAtlasTexturePacker("assets.entities.Background","assets/entities/Background.png")
 
 --Makes a class that controls the game state.
 SCENES = CLASS('Menu')
