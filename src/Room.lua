@@ -53,9 +53,9 @@ function Room:initialize()
   self.pickups = {}
 
   self.background = TEXMATESTATIC(bgAtlas,"Background/Background_0000",-2,798)
-  self.wallLeft = TEXMATESTATIC(bgAtlas,"Walls/Wall1_0000",420,800)
-  self.wallRight = TEXMATESTATIC(bgAtlas,"Walls/Wall2_0000",-530,800)
-  self.ground = TEXMATESTATIC(bgAtlas,"floor/Floor_0000",-40,1200)
+  self.lWallTexture = TEXMATESTATIC(bgAtlas,"Walls/Wall1_0000",420,800)
+  self.rWallTexture = TEXMATESTATIC(bgAtlas,"Walls/Wall2_0000",-530,800)
+  self.groundTexture = TEXMATESTATIC(bgAtlas,"floor/Floor_0000",-40,1200)
 
     -- Platform
   self.platform = Platform(-55,0,0.8)
@@ -104,14 +104,19 @@ function Room:update(dt)
       end
     end
   end
+
+  -- End the game when the cauldron hits the ground
+  if self.ground:enter('Cauldron') then
+    self.cauldronDropped = true
+  end
 end
 
 function Room:draw()
 
   self.background:draw()
-  self.wallLeft:draw()
-  self.wallRight:draw()
-  self.ground:draw()
+  self.lWallTexture:draw()
+  self.rWallTexture:draw()
+  self.groundTexture:draw()
   self.platform:draw()
   self.cauldron:draw(dt)
 

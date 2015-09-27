@@ -145,7 +145,7 @@ function PL:update(dt)
       local _, pickup = self.collision:enter(collisionClassName)
 
       -- Pickups should not be picked up as soon as their colliders are created
-      if pickup.parent.aliveTime > 0.5 then
+      if pickup.parent.aliveTime > 0.2 then
         pickup.parent:pickup()
       end
     end

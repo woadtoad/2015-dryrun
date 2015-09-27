@@ -4,11 +4,7 @@ local Timer = require('libs.hump.timer')
 local Arrow = CLASS('Arrow')
 Arrow:include(STATEFUL)
 
-
 function Arrow:initialize(x,y,vec)
-
-
-
   local angle = math.deg(math.atan2(vec.y,vec.x))
 
   self.collision = world:newCircleCollider(x or 100, y or 100, 5, {collision_class = 'ArrowHead'})
@@ -33,15 +29,22 @@ function Arrow:initialize(x,y,vec)
 
   self.arrowAnimList = {}
 
-  self.arrowAnimList["Launch"] = {
-    framerate = 14,
+  self.arrowAnimList["Loose"] = {
+    framerate = 10,
+    frames = {
+            "Arrow/Loose_0000",
+            "Arrow/Loose_0001",
+            "Arrow/Loose_0002",
+            "Arrow/Loose_0003",
+            "Arrow/Loose_0004"
+    }
+  }
+  self.arrowAnimList["Impact"] = {
+    framerate = 10,
     frames = {
             "Arrow/Impact_0000",
             "Arrow/Impact_0001",
-            "Arrow/Impact_0002",
-            "Arrow/Impact_0003",
-            "Arrow/Impact_0004",
-            "Arrow/Impact_0005"
+            "Arrow/Impact_0002"
     }
   }
   self.arrowAnimList["Idle"] = {
@@ -51,10 +54,13 @@ function Arrow:initialize(x,y,vec)
     }
   }
 
-  self.sprite = TEXMATE(myAtlas,self.arrowAnimList,"Launch",nil,nil,-8,20)
+  self.sprite = TEXMATE(myAtlas,self.arrowAnimList,"Loose",nil,nil,-8,20)
 
+  self.sprite.endCallback["Loose"] = function()
+      self.sprite:changeAnim("Idle")
+  end
 
-  self.sprite.endCallback["Launch"] = function()
+  self.sprite.endCallback["Impact"] = function()
       self.sprite:changeAnim("Idle")
   end
 
@@ -71,7 +77,7 @@ function Arrow:draw()
   end
 end
 
-function Arrow:drawCheck(dt)
+function Arrow:blinkDrawCheck(dt)
   local blinkSecondsStep = 0.5
   local emptyBlinkThreshold = 0.1
 
@@ -112,6 +118,10 @@ function Arrow:update(dt)
     self.timer.add(0.5, function() joint:destroy() end)
   end
 
+  -- Stick arrow to platform, BOI"NG
+  if self.collision:enter('Platform') then
+    self.sprite:changeAnim('Impact')
+  end
 
   -- Expire the arrow if this is enabled for the arrow
   if self.canExpire then
@@ -124,9 +134,7 @@ function Arrow:update(dt)
     end
   end
 
-  self:drawCheck(dt)
-
-
+  self:blinkDrawCheck(dt)
 
 end
 

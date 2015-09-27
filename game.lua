@@ -26,10 +26,13 @@ function Game:initialize()
   table.insert(UPDATELIST, self.textArea)
   self.textArea:addText('pls sned heldp')
 
+  self.endTextScale = 1
+  self.endTextNegation = 1
+  self.endTextScaleDirection = true
+
 end
 
 function Game:update(dt)
-
 
   if love.joystick.isDown then
     print("controller")
@@ -38,6 +41,16 @@ function Game:update(dt)
   --Iterate through the items for update
   for i, v in pairs(UPDATELIST) do
     UPDATELIST[i]:update(dt)
+  end
+
+  self.endTextScale = (self.endTextScale + ((0.7 * dt) * self.endTextNegation))
+  if self.endTextScaleDirection and self.endTextScale > 2 then
+    self.endTextNegation = -1
+    self.endTextScaleDirection = false
+  end
+  if not self.endTextScaleDirection and self.endTextScale < 1 then
+    self.endTextNegation = 1
+    self.endTextScaleDirection = true
   end
 
 end
@@ -54,6 +67,10 @@ function Game:draw()
   if DEBUG == DEBUG_MODES.SHOW_GAME_AND_COLLISION or DEBUG == DEBUG_MODES.SHOW_ONLY_COLLISION then
     --Debug Drawing for physics
     world:draw()
+  end
+
+  if self.room.cauldronDropped then
+    love.graphics.printf('You\'ve been kicked out of the sauna!', love.graphics.getWidth() / 2 - (125 / 2) - (Room.static.WALL_WIDTH), love.window.getHeight() / 2 - (125 / 2), 125, "center", 0, self.endTextScale)
   end
 
 end

@@ -14,6 +14,11 @@ world:addCollisionClass('Platform', {
   ignores = {'RoomRoof'}
 })
 
+-- Cauldron.lua
+world:addCollisionClass('Cauldron', {
+  ignores = {'Player'}
+})
+
 -- Bubble.lua
 world:addCollisionClass('Bubble', {
   ignores = {'RoomGround', 'RoomRoof'}
