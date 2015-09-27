@@ -8,10 +8,10 @@ PL:include(STATEFUL)
 --------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------
 
-function PL:initialize(room)
+function PL:initialize(quiver)
   self.Health = 10
   self.shootTimer = 0
-  self.room  = room
+  self.quiver = quiver
   self.vector = VECTOR(0,0)
   self.defaultVec = VECTOR(0,0)
   self.resetNo = 1
@@ -192,9 +192,7 @@ function PL:shoot(dt,isinput)
   --Adds a shoot delay
   if self.shootTimer < 0 then
 
-    if SCENES.room then print("rest") end
-
-    self.room.quiver:forgeArrow(self.collision.body:getX(),self.collision.body:getY()-100,self.vector)
+    self.quiver:forgeArrow(self.collision.body:getX(),self.collision.body:getY()-100,self.vector)
     self.shootTimer = 100
 
   end

@@ -13,7 +13,9 @@ Room.static.WALL_RIGHT_OFFSET = -140;
 Room.static.GROUND_HEIGHT = 50;
 Room.static.ROOF_HEIGHT = 50;
 
-function Room:initialize()
+function Room:initialize(quiver)
+  self.quiver = quiver
+
   -- Setup room physicals
   self.ground = world:newRectangleCollider(0, 750, love.graphics.getWidth(), Room.static.GROUND_HEIGHT, {
     body_type = 'static',

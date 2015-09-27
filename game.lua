@@ -1,5 +1,6 @@
 local world = require('src.world')
 local Room = require('src.Room')
+local Quiver = require('src.Quiver')
 
 
 local Game = SCENES:addState('Game')
@@ -10,7 +11,9 @@ function Game:initialize()
   -- Initialise the worlds collision classes, for everything to use
   require('src.collisionClasses')
 
-  self.room = Room()
+  self.quiver = Quiver()
+
+  self.room = Room(self.quiver)
   table.insert(UPDATELIST, self.room)
 
 
@@ -18,9 +21,11 @@ function Game:initialize()
   player = require('src.Player')
 
   --instantiate a new player.
-  Archer = player:new(self.room) --this is bad but it'll work, the whole passing the self.room ref
+  Archer = player:new(self.quiver) --this is bad but it'll work, the whole passing the self.room ref
   table.insert(UPDATELIST,Archer)
+
   self.room:start()
+
   --instantiate a text area
   self.textArea = UI.Textarea(20,20,100,40, {editing_locked = true})
   table.insert(UPDATELIST, self.textArea)
@@ -59,9 +64,7 @@ function Game:draw()
 
   if DEBUG == DEBUG_MODES.SHOW_GAME or DEBUG == DEBUG_MODES.SHOW_GAME_AND_COLLISION then
     --Iterate through the items for drawing
-      for i, v in pairs(UPDATELIST) do
-        UPDATELIST[i]:draw()
-      end
+      Game:drawFromUpdateList()
   end
 
   if DEBUG == DEBUG_MODES.SHOW_GAME_AND_COLLISION or DEBUG == DEBUG_MODES.SHOW_ONLY_COLLISION then
