@@ -37,13 +37,30 @@ DEBUG_MODES = {
   SHOW_ONLY_COLLISION = 2
 }
 DEBUG = DEBUG_MODES.SHOW_GAME
+DEBUG_ZOOM = 1
 
-local debugCliArg = arg[2]
-if debugCliArg then
-  if string.find(debugCliArg, '^--debug') ~= nil then
-    local debugValue = tonumber(string.match(debugCliArg, '^--debug=(%d)'))
+local cliArgs = {}
+print(#arg)
+for i=1,(#arg - 1) do
+  -- print(i)
+  print('cliArgs['..i..']', arg[i + 1])
+  table.insert(cliArgs, arg[i + 1])
+end
+
+-- TODO: refactor to cli args util, or use a lib
+for i,cliArg in ipairs(cliArgs) do
+  if string.find(cliArg, '^--debug') ~= nil then
+    local debugValue = tonumber(string.match(cliArg, '^--debug=(%d)'))
 
     DEBUG = debugValue or DEBUG_MODES.SHOW_GAME_AND_COLLISION
+    print('DEBUG', DEBUG)
+  end
+
+  if string.find(cliArg, '^--zoom') ~= nil then
+    local debugValue = tonumber(string.match(cliArg, '^--zoom=(%d%.?%d?)'))
+
+    DEBUG_ZOOM = debugValue or 0.5
+    print('DEBUG_ZOOM', DEBUG_ZOOM)
   end
 end
 
@@ -141,7 +158,7 @@ function love.load()
   print("welcome")
 
   cam = CAMERA.new(-10000,-10000,20000,20000)
-  cam:setScale(1)
+  cam:setScale(DEBUG_ZOOM)
 
 end
 
