@@ -20,38 +20,12 @@ function PL:initialize(quiver)
   local bodyAnimList = {}
   bodyAnimList["Idle"] = {
     framerate = 10,
-    frames = {
-            "deud/Idle_0000",
-            "deud/Idle_0001",
-            "deud/Idle_0002",
-            "deud/Idle_0003",
-            "deud/Idle_0004",
-            "deud/Idle_0005",
-            "deud/Idle_0006",
-            "deud/Idle_0007",
-            "deud/Idle_0008",
-    }
+    frames = {TEXMATE:frameCounter("deud/Idle_",0,8)}
   }
 
   bodyAnimList["Run"] = {
     framerate = 10,
-    frames = {
-            "deud/Run_0000",
-            "deud/Run_0001",
-            "deud/Run_0002",
-            "deud/Run_0003",
-            "deud/Run_0004",
-            "deud/Run_0005",
-            "deud/Run_0006",
-            "deud/Run_0007",
-            "deud/Run_0008",
-            "deud/Run_0009",
-            "deud/Run_0010",
-            "deud/Run_0011",
-            "deud/Run_0012",
-            "deud/Run_0013",
-            "deud/Run_0014"
-          }
+    frames = {TEXMATE:frameCounter("deud/Run_",0,14)}
   }
 
   bodyAnimList["Skid"] = {

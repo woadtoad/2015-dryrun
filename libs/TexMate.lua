@@ -39,6 +39,21 @@ function _M:initialize (Atlas,animlist,defaultanim,x,y,pivotx,pivoty,rot,flip,sc
 
 end
 
+function _M:frameCounter(name,rangefrom,rangeto)
+
+  local count = rangeto - rangefrom
+  names = {}
+
+  for i=1,count+1 do
+    local string = string.format("%04i", i-1+rangefrom)
+    names[i] = name .. string
+  end
+  print("output",unpack(names))
+  return unpack(names)
+end
+
+
+
 function _M:pause ()
 	self.active = false
 end
