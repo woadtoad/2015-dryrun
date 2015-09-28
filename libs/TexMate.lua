@@ -39,13 +39,14 @@ function _M:initialize (Atlas,animlist,defaultanim,x,y,pivotx,pivoty,rot,flip,sc
 
 end
 
-function _M:frameCounter(name,rangefrom,rangeto)
+function _M:frameCounter(name,rangefrom,rangeto,padding)
 
   local count = rangeto - rangefrom
   names = {}
+  pad = padding or 4
 
   for i=1,count+1 do
-    local string = string.format("%04i", i-1+rangefrom)
+    local string = string.format("%0"..pad.."i", i-1+rangefrom)
     names[i] = name .. string
   end
   print("output",unpack(names))
