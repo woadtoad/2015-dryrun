@@ -15,6 +15,8 @@ end
 
 function _M:initialize (Atlas,animlist,defaultanim,x,y,pivotx,pivoty,rot,flip,scale)
 
+  if flip == true then flip = -1 elseif flip == false then flip = 1 end
+
 	self.Atlas = Atlas
 	self.animlist = animlist
 	self.activeAnim = defaultanim
@@ -30,7 +32,7 @@ function _M:initialize (Atlas,animlist,defaultanim,x,y,pivotx,pivoty,rot,flip,sc
 	self.scale = {}
 	self.scale.x = scale or 1
 	self.scale.y = scale or 1
-  self.flip = -1
+  self.flip = flip or 1
   self.endCallback = {}
 
   if flip then
