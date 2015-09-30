@@ -40,9 +40,6 @@ function Room:initialize(quiver)
     collision_class = 'RoomDeadZone'
   })
 
-  -- arrow constructor class
-  self.quiver = Quiver:new(3)
-
   -- Bubble state
   self.bubbles = {}
   self.hasBubbles = false
@@ -130,7 +127,7 @@ function Room:draw()
     pickup:draw()
   end
 
-  self.quiver.draw(self.quiver)
+  self.quiver:draw()
 
 end
 

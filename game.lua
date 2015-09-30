@@ -11,7 +11,7 @@ function Game:initialize()
   -- Initialise the worlds collision classes, for everything to use
   require('src.collisionClasses')
 
-  self.quiver = Quiver()
+  self.quiver = Quiver:new(3)
 
   self.room = Room(self.quiver)
   table.insert(UPDATELIST, self.room)

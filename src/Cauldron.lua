@@ -7,7 +7,7 @@ Cauldron.static.ANIM_IDLE = 'Idle'
 function Cauldron:initialize(x, y, radius)
   -- set the defaults
   radius = radius or 35
-  x = x or (love.graphics.getWidth() / 2) - (radius / 2)
+  x = x or (love.graphics.getWidth() / 2) - (radius / 2) - 22
   y = y or (love.graphics.getHeight() / 2) - (radius / 2)
 
   animlist = {}
