@@ -168,8 +168,9 @@ function Arrow:expire()
 end
 
 function Arrow:stationary()
+  local almostStopped = 0.05
   local vx, vy = self.collision.body:getLinearVelocityFromWorldPoint(0, 0)
-  return vx < 0.5 and vy < 0.5
+  return vx < almostStopped and vy < almostStopped
 end
 
 function Arrow:destroy()
