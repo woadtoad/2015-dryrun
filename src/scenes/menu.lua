@@ -1,4 +1,6 @@
-local Menu = SCENES:addState('Menu')
+local Scene = require('src.Scene')
+
+local Menu = Scene.static.states.Menu
 
 function Menu:initialize()
   chatbox = chatboxMaster(10, 200, 300, 390)

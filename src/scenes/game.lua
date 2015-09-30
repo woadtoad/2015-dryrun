@@ -1,17 +1,17 @@
+local Scene = require('src.Scene')
 local world = require('src.world')
 local Room = require('src.Room')
 local Quiver = require('src.Quiver')
 
-
-local Game = SCENES:addState('Game')
-
 local UPDATELIST = {}
+
+local Game = Scene.static.states.Game
 
 function Game:initialize()
   -- Initialise the worlds collision classes, for everything to use
   require('src.collisionClasses')
 
-  self.quiver = Quiver:new(3)
+  self.quiver = Quiver:new(20)
 
   self.room = Room(self.quiver)
   table.insert(UPDATELIST, self.room)

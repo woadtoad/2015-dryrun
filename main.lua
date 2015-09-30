@@ -128,21 +128,18 @@ myAtlas = AtlasImporter.loadAtlasTexturePacker("assets.entities.entitiesC","asse
 bgAtlas = AtlasImporter.loadAtlasTexturePacker("assets.entities.Background","assets/entities/Background.png")
 
 --Makes a class that controls the game state.
-SCENES = CLASS('Menu')
-SCENES:include(STATEFUL)
+Scene = require('src.Scene')
 
-require("menu")
-require("game")
+require('src.scenes.game')
+require('src.scenes.menu')
 
---initializes the game state. Statemanager is a generic class based statemanager, where i chose to keep it simple and do some not so ideal stuff to avoid needing another library. We can swap this out if you don't like it.
---The main drawback of this method is the lack of nice animations between scenes, oh well
-GameState = SCENES:new()
-GameState:gotoState("Game")
-GameState:initialize()
-GameState:gotoState("Menu")
-GameState:initialize()
+GameScenes = Scene:new()
+GameScenes:gotoState("Game")
+GameScenes:initialize()
+GameScenes:gotoState("Menu")
+GameScenes:initialize()
 
-GameState:gotoState("Game")
+GameScenes:gotoState("Game")
 
 scale = 0
 
@@ -165,14 +162,16 @@ function love.load()
   cam:setPosition(500,420)
 
 end
+local lurker = require('libs.lurker')
+
 
 function love.update(dt)
   --passes the update callback to the gamestate
-  GameState:update(dt)
+  GameScenes:update(dt)
 
-
-
-
+  if DEBUG > 0 then
+    lurker.update(dt)
+  end
 end
 
 function love.draw()
@@ -180,13 +179,13 @@ function love.draw()
   --passes the drawcallback to the gamestate
   cam:draw(function(l,t,w,h)
   -- draw camera stuff here
-    GameState:draw()
+    GameScenes:draw()
   end)
 
 end
 
 function love.keypressed(key, isrepeat)
 
-  GameState:keypressed(key, isrepeat)
+  GameScenes:keypressed(key, isrepeat)
 
 end
