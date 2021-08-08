@@ -153,6 +153,19 @@ defaultCamPos = {500,420}
 
 --love.load really isn't a nessecary thing, it just exists to make things neat
 function love.load()
+    -- This is fine as relative, although that isn't mentioned in the docs
+  local gamecontrollerdb_path = 'src/gamecontrollerdb/gamecontrollerdb.txt'
+  local customdb_path = 'src/gamecontrollerdb/customdb.txt'
+
+  if love.filesystem.exists(gamecontrollerdb_path) and love.filesystem.exists(customdb_path) then
+    print('  Initializing gamepad mappings...')
+    local loaded = love.joystick.loadGamepadMappings(gamecontrollerdb_path)
+    local loaded = love.joystick.loadGamepadMappings(customdb_path)
+    if loaded == false then
+      print('    Failed')
+    end
+  end
+
   UI.registerEvents()
   love.graphics.setBackgroundColor( 100,100,100 )
 
